@@ -1,11 +1,12 @@
 import * as Router from 'koa-router'
-import {UserController} from '../controllers/upload'
+import * as upload from '../controllers/upload'
 
 const router = new Router({
   prefix: '/upload'
 })
 
 router
-  .post('/', UserController.postInfo)
+  .get('/', upload.getPage)
+  .post('/', upload.uploadFile)
 
 export = router

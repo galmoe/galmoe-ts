@@ -13,11 +13,17 @@
   "author": "Beats0",
   "license": "GPLV3",
   "dependencies": {
+    "@types/koa-bodyparser": "^5.0.1",
+    "busboy": "^0.2.14",
     "koa": "^2.5.3",
+    "koa-body": "^4.0.4",
+    "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
+    "koa-send": "^5.0.0",
     "koa-static": "^5.0.0",
     "koa-static-cache": "^5.1.2",
     "koa2-cors": "^2.0.6",
+    "md5.js": "^1.3.5",
     "mysql": "^2.16.0"
   },
   "devDependencies": {

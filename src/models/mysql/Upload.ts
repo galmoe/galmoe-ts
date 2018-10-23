@@ -1,16 +1,15 @@
 import {dbquery} from '../../db/mysql'
 
-interface User {
-  uid?:number;
-  uname?:string;
+interface File {
+  hash: string,
+  uid?:number,
+  uname?:string,
+  size: number,
+  size_simple: string,
+  type: string
 }
 
-export const getUserByName = async (uname: string) => {
-  let _sql = `SELECT * FROM \`user\` WHERE uname = '${uname}'`
-  return dbquery(_sql)
-}
-
-export const getUserById = async (uid: number) => {
-  let _sql = `SELECT * FROM \`user\` WHERE uid = ${uid}`
+export const saveInfo = async (file: File) => {
+  let _sql = `INSERT INTO upload (\`hash\`, uid, uname, date, size, size_simple, type) VALUES ('${file.hash}', ${file.uid}, '${file.uname}', NOW(), '${file.size}', '${file.size_simple}', '${file.type}')`
   return dbquery(_sql)
 }

@@ -1,15 +1,14 @@
-import * as path from 'path';
-import * as Koa from 'koa';
-import * as Router from 'koa-router';
-// import {appRoutes} from './routes'
+import * as path from 'path'
+import * as Koa from 'koa'
 import {serve} from '../config'
 import * as router from './routes'
+import * as bodyParser from 'koa-bodyparser';
 const koaStatic = require('koa-static')
 const staticCache = require('koa-static-cache')
 const cors = require('koa2-cors')
+import * as koaBody from 'koa-body'
 
 const app = new Koa();
-// const router = new Router();
 
 app
   .use(cors({
@@ -17,7 +16,6 @@ app
     // if (ctx.url === '/test') {
     //   return "*"; // test开放
     // }
-    // return 'http://localhost'
     return serve.cors
   },
   exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
@@ -27,8 +25,21 @@ app
   allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
 }))
 
-app.use(staticCache(path.join(__dirname, './public'), { dynamic: true }, {
-  maxAge: serve.maxAge
+app.use(koaBody({
+  multipart: true,
+  formidable: {
+    maxFileSize: 52428800
+  }
+}))
+app.use(bodyParser({
+  formLimit: '2mb'
+}
+))
+
+// 为编译后的public
+app.use(staticCache(path.join(__dirname, '../public'), { dynamic: true }, {
+  maxAge: serve.maxAge,
+  gzip: true
 }))
 
 app.use(async (ctx, next) => {
