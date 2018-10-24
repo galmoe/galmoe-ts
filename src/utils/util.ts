@@ -27,7 +27,7 @@ export function formatDateTime (timeStamp: number) {
 }
 
 // yyyy-mm-dd h:mm:ss 时间
-function dateTime () {
+export function dateTime () {
   let date = new Date()
   date.setTime(Date.now())
   let y: number | string = date.getFullYear()

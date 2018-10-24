@@ -2,7 +2,7 @@ import {Context} from 'koa'
 import * as User from '../models/mysql/User'
 
 export class UserController {
-  static async getUserInfo(ctx: Context) {
+  static async getUserInfo (ctx: Context) {
     const uid = ctx.params.uid
     const page = ctx.query.page || 1;
     const user = {
@@ -21,8 +21,7 @@ export class UserController {
       }
     }
   }
-
-  static async postInfo(ctx: Context) {
+  static async postInfo (ctx: Context) {
     // const data = ctx.request
     console.log(ctx.request.query)
     ctx.body = {
@@ -32,50 +31,16 @@ export class UserController {
       }
     }
   }
-
-  static async getMessage(ctx: Context) {
+  static async getMessage (ctx: Context) {
     ctx.body = {
       type: 'success',
       msg: 'this is some success message'
     }
   }
-
-  static async getErrMessage(ctx: Context) {
+  static async getErrMessage (ctx: Context) {
     ctx.body = {
       type: 'error',
       msg: 'this is some error message'
-    }
-  }
-
-  static async checkUname(ctx: Context) {
-    const req = ctx.request.body;
-    const {total} = (await User.checkUname(req.uname))[0];
-    if (total) {
-      ctx.body = {
-        status: 'failed',
-        msg: '昵称已被注册'
-      }
-    } else {
-      ctx.body = {
-        status: 'ok',
-        msg: ''
-      }
-    }
-  }
-
-  static async checkEmail(ctx: Context) {
-    const req = ctx.request.body;
-    const {total} = (await User.checkEmail(req.email))[0];
-    if (total) {
-      ctx.body = {
-        status: 'failed',
-        msg: '邮箱已被注册'
-      }
-    } else {
-      ctx.body = {
-        status: 'ok',
-        msg: ''
-      }
     }
   }
 }

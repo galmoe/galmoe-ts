@@ -1,8 +1,9 @@
 import * as path from 'path'
 import * as Koa from 'koa'
-import {serve} from '../config'
+import {serve, uploadDir} from '../config'
 import * as router from './routes'
 import * as bodyParser from 'koa-bodyparser';
+
 const koaStatic = require('koa-static')
 const staticCache = require('koa-static-cache')
 const cors = require('koa2-cors')
@@ -12,32 +13,44 @@ const app = new Koa();
 
 app
   .use(cors({
-  origin: function () {
-    // if (ctx.url === '/test') {
-    //   return "*"; // test开放
-    // }
-    return serve.cors
-  },
-  exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
-  maxAge: 5,
-  credentials: true,
-  allowMethods: ['GET', 'POST', 'DELETE', 'PUT'],
-  allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
-}))
+    origin: function () {
+      // if (ctx.url === '/test') {
+      //   return "*"; // test开放
+      // }
+      return serve.cors
+    },
+    exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
+    maxAge: 5,
+    credentials: true,
+    allowMethods: ['GET', 'POST', 'DELETE', 'PUT'],
+    allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
+  }))
 
+// file upload
 app.use(koaBody({
   multipart: true,
   formidable: {
-    maxFileSize: 52428800
+    hash: 'md5',
+    uploadDir: uploadDir(),
+    maxFileSize: 3 * 1024 * 1024, // 3m,
+    onFileBegin: function (name, file) {
+      const filename = path.basename(file.path);
+      const folder = path.dirname(file.path);
+      console.log(filename, folder)
+      // Manipulate the filename
+      // file.path = path.join(folder, filename);
+    }
   }
 }))
+
+// body parser
 app.use(bodyParser({
-  formLimit: '2mb'
-}
+    formLimit: '2mb'
+  }
 ))
 
 // 为编译后的public
-app.use(staticCache(path.join(__dirname, '../public'), { dynamic: true }, {
+app.use(staticCache(path.join(__dirname, '../public'), {dynamic: true}, {
   maxAge: serve.maxAge,
   gzip: true
 }))

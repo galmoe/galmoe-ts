@@ -1,3 +1,5 @@
+import * as path from 'path'
+
 interface Serve {
   port: number;
   host?: string;
@@ -10,7 +12,7 @@ interface MysqlClient {
   user: string;
   password: string;
   database: string;
-  port?: string;
+  port: number;
 }
 
 interface RedisClient {
@@ -30,7 +32,7 @@ export const serve:Serve = {
 
 export const mysqlClientConfig:MysqlClient = {
   host: 'localhost',
-  port: '3307',
+  port: 3307,
   user: 'root',
   password: '111111',
   database: 'galmoe_material'
@@ -42,4 +44,8 @@ export const redisClientConfig:RedisClient = {
   ttl: 60*60*23,
   password: '111111',
   db: 0
+}
+
+export function uploadDir(): string {
+  return path.join(__dirname, `../public/files/`)
 }

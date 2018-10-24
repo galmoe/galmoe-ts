@@ -1,9 +1,7 @@
-// const mysql = require('mysql')
-// import * as mysql from 'mysql'
 import {mysqlClientConfig} from '../../../config'
-const mysql = require('mysql')
+import { createPool } from 'mysql'
 
-const pool = mysql.createPool({
+const pool = createPool({
   host: mysqlClientConfig.host,
   user: mysqlClientConfig.user,
   password: mysqlClientConfig.password,
@@ -11,13 +9,14 @@ const pool = mysql.createPool({
   port: mysqlClientConfig.port
 })
 
-export const dbquery = (sql:string, values?:any) => {
+
+export const dbquery = (sql:string, values?:any[]):Promise<any> => {
   return new Promise((resolve, reject) => {
     pool.getConnection((err:any, connection:any) => {
       if (err) {
         reject(err)
       } else {
-        connection.query(sql, values, (err:any, rows:any) => {
+        connection.query(sql, values, (err:any, rows:any[]) => {
           if (err) {
             reject(err)
           } else {

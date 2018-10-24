@@ -6,9 +6,11 @@ const router = new Router({
 })
 
 router
-  .get('/', UserController.getUserInfo)
+  .get('/:id', UserController.getUserInfo)
   .post('/', UserController.postInfo)
   .get('/message', UserController.getMessage)
   .get('/errmessage', UserController.getErrMessage)
+  .post('/check/uname', UserController.checkUname)
+  .post('/check/email', UserController.checkEmail)
 
 export = router

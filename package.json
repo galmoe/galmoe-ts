@@ -14,6 +14,7 @@
   "license": "GPLV3",
   "dependencies": {
     "@types/koa-bodyparser": "^5.0.1",
+    "@types/mysql": "^2.15.5",
     "busboy": "^0.2.14",
     "koa": "^2.5.3",
     "koa-body": "^4.0.4",
