@@ -1,8 +1,12 @@
 import {dbquery} from '../../db/mysql'
 
-interface User {
+export interface UserType {
   uid?:number;
   uname?:string;
+  pwd?:string;
+  email?:string;
+  avatar?:string;
+  register?:string;
 }
 
 export const getUserByName = async (uname: string) => {

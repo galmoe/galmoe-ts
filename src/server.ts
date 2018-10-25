@@ -1,18 +1,17 @@
 import * as path from 'path'
 import * as Koa from 'koa'
-import {serve, uploadDir} from '../config'
+import {serve, sessionConfig, uploadDir} from '../config'
 import * as router from './routes'
 import * as bodyParser from 'koa-bodyparser';
-
-const koaStatic = require('koa-static')
+import * as session from 'koa-session'
 const staticCache = require('koa-static-cache')
 const cors = require('koa2-cors')
 import * as koaBody from 'koa-body'
 
 const app = new Koa();
 
-app
-  .use(cors({
+// cors
+app.use(cors({
     origin: function () {
       // if (ctx.url === '/test') {
       //   return "*"; // test开放
@@ -25,6 +24,10 @@ app
     allowMethods: ['GET', 'POST', 'DELETE', 'PUT'],
     allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
   }))
+
+// session
+app.keys = Array.from({length: 50}, (v, i) => String(i + Math.floor((Math.random() * 100) + 1)))
+app.use(session(sessionConfig, app));
 
 // file upload
 app.use(koaBody({
@@ -49,12 +52,13 @@ app.use(bodyParser({
   }
 ))
 
-// 为编译后的public
+// static 为编译后的public
 app.use(staticCache(path.join(__dirname, '../public'), {dynamic: true}, {
   maxAge: serve.maxAge,
   gzip: true
 }))
 
+// log
 app.use(async (ctx, next) => {
   const start = Date.now()
   try {

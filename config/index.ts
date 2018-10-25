@@ -24,6 +24,16 @@ interface RedisClient {
   prefix?:string;
 }
 
+interface SessionConfig {
+  key: string,
+  maxAge: number,
+  overwrite?: boolean,
+  httpOnly?: boolean,
+  signed?: boolean,
+  rolling?: boolean,
+  renew?: boolean,
+}
+
 export const serve:Serve = {
   port: 3000,
   cors: 'http://localhost:8080',
@@ -44,6 +54,16 @@ export const redisClientConfig:RedisClient = {
   ttl: 60*60*23,
   password: '111111',
   db: 0
+}
+
+export const sessionConfig:SessionConfig = {
+  key: 'gal:sess',
+  maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
+  overwrite: true,
+  httpOnly: true,
+  signed: true,
+  rolling: false,
+  renew: false
 }
 
 export function uploadDir(): string {

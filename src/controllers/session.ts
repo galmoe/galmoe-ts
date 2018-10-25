@@ -1,46 +1,61 @@
-import {Context} from 'koa'
-import * as User from '../models/mysql/User'
+import { Context } from 'koa'
+import { Check } from '../utils/check'
+import * as Session from '../models/mysql/Session'
+import { UserController } from './user'
+import * as User from "../models/mysql/User";
 
-export class UserController {
-  static async getUserInfo (ctx: Context) {
-    const uid = ctx.params.uid
-    const page = ctx.query.page || 1;
-    const user = {
-      uid: 1,
-      uname: 'Beats0',
-      avatar: 'https://avatars0.githubusercontent.com/u/29087203?s=460&v=4',
-      background: 'https://ws1.sinaimg.cn/large/006nOlwNly1fwfzijcndvj315o0ogtgr.jpg',
-      sign: 'Twitter、Github、Steam @Beats0 写代码，吃吃吃'
-    }
-    // get data
-    ctx.body = {
-      code: 200,
-      // data: await User.getUserById(1)
-      data: {
-        user
+export class SessionController {
+  static async login (ctx: Context) {
+    //
+  }
+  static async logout (ctx: Context) {
+    //
+  }
+  static async register (ctx: Context) {
+    const req = ctx.request.body
+    console.log(req)
+    console.log(ctx.session.captcha)
+    const {captcha} = ctx.request.body
+    const {_captcha} = ctx.session
+    const captchaReg = new RegExp(captcha, 'i')
+    // captcha
+    if (!captchaReg.test(_captcha)) {
+      ctx.body = {
+        type: 'error',
+        msg: '验证码错误'
       }
     }
-  }
-  static async postInfo (ctx: Context) {
-    // const data = ctx.request
-    console.log(ctx.request.query)
-    ctx.body = {
-      code: 200,
-      data: {
-        action: 'post'
+    // uname
+    if (!Check.hasBlank(req.uname) || !Check.max(req.uname, 20)) {
+      ctx.body = {
+        type: 'error',
+        msg: '昵称错误'
       }
     }
-  }
-  static async getMessage (ctx: Context) {
-    ctx.body = {
-      type: 'success',
-      msg: 'this is some success message'
+    const {total} = (await User.checkUname(req.uname))[0]
+    if (total) {
+      ctx.body = {
+        type: 'error',
+        msg: '昵称已被注册'
+      }
     }
-  }
-  static async getErrMessage (ctx: Context) {
+    // mail
+    if (!Check.isEmail(req.email)) {
+      ctx.body = {
+        type: 'error',
+        msg: '邮箱错误'
+      }
+    }
+    const email = (await User.checkUname(req.uname))[0]
+    if (email.total) {
+      ctx.body = {
+        type: 'error',
+        msg: '昵称已被注册'
+      }
+    }
+    await Session.register(req)
     ctx.body = {
-      type: 'error',
-      msg: 'this is some error message'
+      session: (await Session.getUserSessionByName(req.uname))[0]
     }
   }
 }

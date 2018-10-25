@@ -52,13 +52,11 @@ export class UserController {
     const {total} = (await User.checkUname(req.uname))[0];
     if (total) {
       ctx.body = {
-        status: 'failed',
-        msg: '昵称已被注册'
+        status: 'failed'
       }
     } else {
       ctx.body = {
-        status: 'ok',
-        msg: ''
+        status: 'ok'
       }
     }
   }
@@ -68,13 +66,11 @@ export class UserController {
     const {total} = (await User.checkEmail(req.email))[0];
     if (total) {
       ctx.body = {
-        status: 'failed',
-        msg: '邮箱已被注册'
+        status: 'failed'
       }
     } else {
       ctx.body = {
-        status: 'ok',
-        msg: ''
+        status: 'ok'
       }
     }
   }
