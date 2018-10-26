@@ -4,7 +4,7 @@
   "description": "galmoe-material-server",
   "main": "dis/server.js",
   "scripts": {
-    "watch-server": "nodemon --watch 'src/**/*' -e ts,tsx --exec ts-node ./src/server.ts",
+    "watch-server-ts": "nodemon --exec ./node_modules/.bin/ts-node ./src/server.ts",
     "serve": "tsc && node dist/src/server.js",
     "build": "tsc",
     "start": "pm2 start dist/src/server.js --watch",
@@ -13,10 +13,12 @@
   "author": "Beats0",
   "license": "GPLV3",
   "dependencies": {
+    "@types/dotenv": "^4.0.3",
     "@types/koa-bodyparser": "^5.0.1",
     "@types/koa-session": "^5.7.4",
     "@types/mysql": "^2.15.5",
     "busboy": "^0.2.14",
+    "dotenv": "^6.1.0",
     "koa": "^2.5.3",
     "koa-body": "^4.0.4",
     "koa-bodyparser": "^4.2.1",

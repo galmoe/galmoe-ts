@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 25/10/2018 23:15:41
+ Date: 26/10/2018 22:54:56
 */
 
 SET NAMES utf8mb4;
@@ -24,9 +24,7 @@ DROP TABLE IF EXISTS `upload`;
 CREATE TABLE `upload`  (
   `hash` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `uid` int(8) NOT NULL,
-  `uname` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `date` datetime(0) NOT NULL,
-  `size` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `size_simple` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `type` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`hash`) USING BTREE

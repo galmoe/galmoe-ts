@@ -4,6 +4,7 @@ import {serve, sessionConfig, uploadDir} from '../config'
 import * as router from './routes'
 import * as bodyParser from 'koa-bodyparser';
 import * as session from 'koa-session'
+
 const staticCache = require('koa-static-cache')
 const cors = require('koa2-cors')
 import * as koaBody from 'koa-body'
@@ -12,18 +13,18 @@ const app = new Koa();
 
 // cors
 app.use(cors({
-    origin: function () {
-      // if (ctx.url === '/test') {
-      //   return "*"; // test开放
-      // }
-      return serve.cors
-    },
-    exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
-    maxAge: 5,
-    credentials: true,
-    allowMethods: ['GET', 'POST', 'DELETE', 'PUT'],
-    allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
-  }))
+  origin: function () {
+    // if (ctx.url === '/test') {
+    //   return "*"; // test开放
+    // }
+    return serve.cors
+  },
+  exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
+  maxAge: 5,
+  credentials: true,
+  allowMethods: ['GET', 'POST', 'DELETE', 'PUT'],
+  allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
+}))
 
 // session
 app.keys = Array.from({length: 50}, (v, i) => String(i + Math.floor((Math.random() * 100) + 1)))

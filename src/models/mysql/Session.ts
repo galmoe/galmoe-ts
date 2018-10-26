@@ -12,7 +12,22 @@ export const getUserSession = async (uid: number) => {
   return dbquery(_sql)
 }
 
+export const getPwd = async (email: string) => {
+  let _sql = `SELECT uid, pwd  FROM \`user\` WHERE email = '${email}'`
+  return dbquery(_sql)
+}
+
 export const getUserSessionByName = async (uname: number) => {
   let _sql = `SELECT uid, uname, avatar FROM \`user\` WHERE uname = '${uname}'`
+  return dbquery(_sql)
+}
+
+export const getUserSessionByEmail = async (email: string) => {
+  let _sql = `SELECT uid, uname, avatar FROM \`user\` WHERE email = '${email}'`
+  return dbquery(_sql)
+}
+
+export const saveAvatar = async (uid: number, avatar: string) => {
+  let _sql = `UPDATE \`user\` SET avatar = '${avatar}' WHERE uid = ${uid}`
   return dbquery(_sql)
 }

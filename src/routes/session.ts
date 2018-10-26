@@ -6,6 +6,7 @@ const router = new Router({
 })
 
 router
+  .get('/', SessionController.check, SessionController.getInfo)
   .post('/login', SessionController.login)
   .post('/logout', SessionController.logout)
   .post('/register', SessionController.register)

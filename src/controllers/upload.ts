@@ -1,10 +1,13 @@
 import { Context } from 'koa'
+import { host } from '../../config';
 import * as path from 'path'
-const fs = require('fs')
-import { randomMd5 } from '../../lib/md5'
-const { bytesToSize } = require('../utils/util')
 import * as Upload from '../models/mysql/Upload'
+import { saveAvatar } from '../models/mysql/Session'
+import * as fs from 'fs'
+import { randomMd5 } from '../../lib/md5'
+import { bytesToSize } from '../utils/util'
 
+// file upload test
 export const getPage = async (ctx: Context) => {
   const html = `
       <h1>koa2 upload demo</h1>
@@ -18,6 +21,7 @@ export const getPage = async (ctx: Context) => {
 }
 
 export const uploadFile = async (ctx: Context) => {
+  const { uid } = ctx.state
   const {file} = ctx.request.files           // 获取上传文件
   const reader = fs.createReadStream(file.path) // 创建可读流
   const sizeSimple = bytesToSize(file.size)   // 文件大小
@@ -40,19 +44,18 @@ export const uploadFile = async (ctx: Context) => {
   //   }
   // })
   // 写入mysql
-  // let fileObj = {
-  //   hash: hash,
-  //   uid: 1,
-  //   uname: 'admin',
-  //   size: file.size,
-  //   size_simple: sizeSimple,
-  //   type: ext
-  // }
-  // let res = await Upload.saveInfo(fileObj)
+  let fileObj = {
+    hash: hash,
+    uid,
+    size_simple: sizeSimple,
+    type: ext
+  }
+  await Upload.saveInfo(fileObj)
+  await saveAvatar(uid, `${host}/files/${fileName}`)
   console.log('uploading %s -> %s', file.name, upStream.path)
   ctx.body = {
     type: 'success',
     msg: '上传成功',
-    src: `http://localhost:3000/files/${fileName}`
+    src: `${host}/files/${fileName}`
   }
 }

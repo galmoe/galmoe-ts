@@ -33,13 +33,6 @@ export class UserController {
     }
   }
 
-  static async getMessage(ctx: Context) {
-    ctx.body = {
-      type: 'success',
-      msg: 'this is some success message'
-    }
-  }
-
   static async getErrMessage(ctx: Context) {
     ctx.body = {
       type: 'error',

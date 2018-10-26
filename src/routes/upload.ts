@@ -1,5 +1,6 @@
 import * as Router from 'koa-router'
 import * as upload from '../controllers/upload'
+import { SessionController } from "../controllers/session";
 
 const router = new Router({
   prefix: '/upload'
@@ -7,6 +8,6 @@ const router = new Router({
 
 router
   .get('/', upload.getPage)
-  .post('/', upload.uploadFile)
+  .post('/',  SessionController.check, upload.uploadFile)
 
 export = router

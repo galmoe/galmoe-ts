@@ -1,5 +1,20 @@
 import * as path from 'path'
 
+// import * as dotenv from "dotenv";
+// dotenv.config();
+// let path;
+// switch (process.env.NODE_ENV) {
+//   case "test":
+//     path = `${__dirname}/../../.env.test`;
+//     break;
+//   case "production":
+//     path = `${__dirname}/../../.env.production`;
+//     break;
+//   default:
+//     path = `${__dirname}/../../.env.development`;
+// }
+// dotenv.config({ path: path });
+
 interface Serve {
   port: number;
   host?: string;
@@ -25,13 +40,13 @@ interface RedisClient {
 }
 
 interface SessionConfig {
-  key: string,
-  maxAge: number,
-  overwrite?: boolean,
-  httpOnly?: boolean,
-  signed?: boolean,
-  rolling?: boolean,
-  renew?: boolean,
+  key: string;
+  maxAge: number;
+  overwrite?: boolean;
+  httpOnly?: boolean;
+  signed?: boolean;
+  rolling?: boolean;
+  renew?: boolean;
 }
 
 export const serve:Serve = {
@@ -65,6 +80,9 @@ export const sessionConfig:SessionConfig = {
   rolling: false,
   renew: false
 }
+
+// export const host = 'http://47.94.16.206'
+export const host = 'http://localhost:3000'
 
 export function uploadDir(): string {
   return path.join(__dirname, `../public/files/`)

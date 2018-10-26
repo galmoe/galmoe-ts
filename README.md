@@ -7,11 +7,14 @@ galmoe node server base on typescript and koa2
 
 重写中...
 
-完成度 10%
+完成度 20%
 
 ```js
 npm install
 
-// dev
+// ts watch dev
+npm run watch-server-ts
+
+// build dev
 npm run serve
 ```

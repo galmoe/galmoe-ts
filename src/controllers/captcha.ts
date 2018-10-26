@@ -1,4 +1,5 @@
-import { Context } from 'koa'
+import {Context} from 'koa'
+
 const svgCaptcha = require('svg-captcha')
 
 export const captcha = async (ctx: Context) => {
@@ -11,7 +12,7 @@ export const captcha = async (ctx: Context) => {
     background: '#ffffff'
   })
   console.log('captcha.text: ====>', captcha.text)
-  ctx.session._captcha = captcha.text
+  ctx.session.captcha = captcha.text
   ctx.set('Content-Type', 'image/svg+xml')
   ctx.status = 200
   ctx.body = captcha.data
@@ -20,10 +21,10 @@ export const captcha = async (ctx: Context) => {
 export const checkCaptcha = async (ctx: Context) => {
   console.log('pc all data: ======>', ctx.request.body)
   // 不区分大小写
-  const {captcha} = ctx.request.body
-  const {_captcha} = ctx.session
-  const captchaReg = new RegExp(captcha, 'i')
-  if (!captchaReg.test(_captcha)) {
+  const req = ctx.request.body
+  const {captcha} = ctx.session
+  const captchaReg = new RegExp(req.captcha, 'i')
+  if (!captchaReg.test(captcha)) {
     ctx.body = {
       status: 'error',
       msg: '验证码错误'
