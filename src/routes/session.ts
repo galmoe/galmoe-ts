@@ -7,8 +7,11 @@ const router = new Router({
 
 router
   .get('/', SessionController.check, SessionController.getInfo)
-  .post('/login', SessionController.login)
+  .get('/p', SessionController.check, SessionController.private)
+  .post('/login', SessionController.checkCaptcha, SessionController.login)
   .post('/logout', SessionController.logout)
-  .post('/register', SessionController.register)
+  .post('/register', SessionController.checkCaptcha, SessionController.register)
+  .put('/update', SessionController.check, SessionController.update)
+  .put('/safety', SessionController.check, SessionController.checkCaptcha, SessionController.safety)
 
 export = router

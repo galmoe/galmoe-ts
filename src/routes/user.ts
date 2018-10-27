@@ -6,7 +6,7 @@ const router = new Router({
 })
 
 router
-  .get('/:id', UserController.getUserInfo)
+  .get('/:uid', UserController.getUserInfo)
   .post('/', UserController.postInfo)
   .post('/check/uname', UserController.checkUname)
   .post('/check/email', UserController.checkEmail)

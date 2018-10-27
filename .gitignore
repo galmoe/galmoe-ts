@@ -64,3 +64,4 @@ typings/
 
 # ts dist
 dist
+public/files

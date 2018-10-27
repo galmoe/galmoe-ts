@@ -7,6 +7,7 @@ export interface UserType {
   email?:string;
   avatar?:string;
   register?:string;
+  sign?: string
 }
 
 export const getUserByName = async (uname: string) => {
@@ -15,7 +16,7 @@ export const getUserByName = async (uname: string) => {
 }
 
 export const getUserById = async (uid: number) => {
-  let _sql = `SELECT * FROM \`user\` WHERE uid = ${uid}`
+  let _sql = `SELECT uid, uname, avatar, background, sign, following, follower FROM \`user\` WHERE uid = ${uid}`
   return dbquery(_sql)
 }
 
