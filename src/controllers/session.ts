@@ -5,6 +5,7 @@ import { UserController } from './user'
 import * as User from "../models/mysql/User";
 import { md5SUFFIX } from "../../lib/md5";
 
+
 export class SessionController {
   static async check(ctx: Context, next: any) {
     const cuid = Number(ctx.cookies.get('cuid'))
@@ -35,6 +36,8 @@ export class SessionController {
         msg: '验证码错误'
       }
     } else {
+      // 验证码通过, 删除captcha
+      delete ctx.session.captcha
       return next()
     }
   }
@@ -70,7 +73,8 @@ export class SessionController {
         msg: '邮箱未注册'
       }
     }
-    const {uid, pwd} = res
+    const { uid } = res
+    const { pwd } = (await Session.getPwdById(uid))[0]
     if (md5SUFFIX(req.pwd) === pwd) {
       ctx.cookies.set(
         'cuid', uid, {
@@ -172,7 +176,7 @@ export class SessionController {
           msg: '修改成功'
         }
       })
-      .catch((error) => {
+      .catch((e) => {
         ctx.body = {
           type: 'error',
           msg: '昵称或邮箱已被注册'

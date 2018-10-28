@@ -1,5 +1,5 @@
 import * as path from 'path'
-
+import { RedisStore } from "../src/models/redis/Session";
 // import * as dotenv from "dotenv";
 // dotenv.config();
 // let path;
@@ -33,10 +33,12 @@ interface MysqlClient {
 interface RedisClient {
   host: string;
   port: number;
-  ttl: number;
-  password: string;
-  db: number;
+  user?: string;
+  password?: string;
+  db?: number;
   prefix?:string;
+  ttl?: number;
+  family?: number;    // ipv4 ? ipv6
 }
 
 interface SessionConfig {
@@ -47,6 +49,7 @@ interface SessionConfig {
   signed?: boolean;
   rolling?: boolean;
   renew?: boolean;
+  store: any;
 }
 
 export const serve:Serve = {
@@ -64,10 +67,11 @@ export const mysqlClientConfig:MysqlClient = {
 }
 
 export const redisClientConfig:RedisClient = {
+  port: 6379,
   host: '127.0.0.1',
-  port: 6397,
-  ttl: 60*60*23,
-  password: '111111',
+  user: '',
+  password: '',
+  family: 4,
   db: 0
 }
 
@@ -78,8 +82,10 @@ export const sessionConfig:SessionConfig = {
   httpOnly: true,
   signed: true,
   rolling: false,
-  renew: false
+  renew: false,
+  store: new RedisStore()
 }
+
 
 // export const host = 'http://47.94.16.206'
 export const host = 'http://localhost:3000'

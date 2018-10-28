@@ -1,13 +1,21 @@
 import * as path from 'path'
 import * as Koa from 'koa'
-import {serve, sessionConfig, uploadDir} from '../config'
+import { serve, sessionConfig, uploadDir } from '../config'
 import * as router from './routes'
-import * as bodyParser from 'koa-bodyparser';
-import * as session from 'koa-session'
+import * as koaBody from 'koa-body'
+import * as bodyParser from 'koa-bodyparser'
+const session = require('koa-session2')
 
+
+// import * as session from 'koa-session'
+// import { redisStoreConfig } from "./models/redis/Session";
+// import {Session} from "koa-session";
+// import {opts} from "koa-session";
+// const redis = require('ioredis')
+
+// const redisStore = require('koa-redis');
 const staticCache = require('koa-static-cache')
 const cors = require('koa2-cors')
-import * as koaBody from 'koa-body'
 
 const app = new Koa();
 
@@ -26,9 +34,9 @@ app.use(cors({
   allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
 }))
 
-// session
+// save session to redis
 app.keys = Array.from({length: 50}, (v, i) => String(i + Math.floor((Math.random() * 100) + 1)))
-app.use(session(sessionConfig, app));
+app.use(session(sessionConfig))
 
 // file upload
 app.use(koaBody({

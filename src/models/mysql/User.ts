@@ -1,4 +1,5 @@
-import {dbquery} from '../../db/mysql'
+import { dbquery } from '../../db/mysql'
+
 
 export interface UserType {
   uid?:number;

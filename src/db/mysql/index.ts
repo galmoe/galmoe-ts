@@ -1,13 +1,7 @@
-import {mysqlClientConfig} from '../../../config'
+import { mysqlClientConfig } from '../../../config'
 import { createPool } from 'mysql'
 
-const pool = createPool({
-  host: mysqlClientConfig.host,
-  user: mysqlClientConfig.user,
-  password: mysqlClientConfig.password,
-  database: mysqlClientConfig.database,
-  port: mysqlClientConfig.port
-})
+const pool = createPool(mysqlClientConfig)
 
 
 export const dbquery = (sql:string, values?:any[]):Promise<any> => {

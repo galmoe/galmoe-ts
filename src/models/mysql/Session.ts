@@ -1,7 +1,7 @@
 import { dbquery } from '../../db/mysql'
 import { UserType } from './User'
-import { md5SUFFIX } from "../../../lib/md5";
-import {getOverloadKey} from "tslint/lib/rules/adjacentOverloadSignaturesRule";
+import { md5SUFFIX } from "../../../lib/md5"
+
 
 export const register = async (user: UserType) => {
   let _sql = `INSERT INTO \`user\` (uname, email, pwd, register) VALUES ('${user.uname}', '${user.email}', '${md5SUFFIX(user.pwd)}', NOW())`
