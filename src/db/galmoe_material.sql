@@ -11,11 +11,22 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 27/10/2018 23:34:54
+ Date: 30/10/2018 23:16:51
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for fav
+-- ----------------------------
+DROP TABLE IF EXISTS `fav`;
+CREATE TABLE `fav`  (
+  `uid` int(8) NOT NULL,
+  `fav` json NULL,
+  PRIMARY KEY (`uid`) USING BTREE,
+  CONSTRAINT `fav` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for post
@@ -31,7 +42,7 @@ CREATE TABLE `post`  (
   `cv` int(8) NOT NULL DEFAULT 0,
   `lv` int(8) NOT NULL DEFAULT 0,
   `thumb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `intro` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `intro` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `hash` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`pid`, `hash`) USING BTREE,
   INDEX `pid`(`pid`) USING BTREE,
@@ -59,12 +70,12 @@ CREATE TABLE `post_d`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `upload`;
 CREATE TABLE `upload`  (
-  `hash` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `fname` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `uid` int(8) NOT NULL,
   `date` datetime(0) NOT NULL,
-  `size_simple` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `type` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`hash`) USING BTREE
+  `size` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`fname`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -84,7 +95,8 @@ CREATE TABLE `user`  (
   `follower` int(8) NOT NULL DEFAULT 0,
   PRIMARY KEY (`uid`, `uname`, `email`) USING BTREE,
   UNIQUE INDEX `uname`(`uname`) USING BTREE,
-  UNIQUE INDEX `email`(`email`) USING BTREE
+  UNIQUE INDEX `email`(`email`) USING BTREE,
+  INDEX `uid`(`uid`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
