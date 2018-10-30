@@ -18,3 +18,9 @@ npm run watch-server-ts
 // build dev
 npm run serve
 ```
+
+node-form
+```js
+node_modules\formidable\lib\incoming_form.js
+```
+去掉'upload_'

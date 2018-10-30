@@ -1,13 +1,13 @@
 import { dbquery } from '../../db/mysql'
 
 interface File {
-  hash: string,
+  fname: string,
   uid: number,
-  size_simple: string,
+  size: string,
   type: string
 }
 
 export const saveInfo = async (file: File) => {
-  let _sql = `INSERT INTO upload (\`hash\`, uid, date, size_simple, type) VALUES ('${file.hash}', ${file.uid}, NOW(), '${file.size_simple}', '${file.type}')`
+  let _sql = `INSERT INTO upload (fname, uid, date, size, type) VALUES ('${file.fname}', ${file.uid}, NOW(), '${file.size}', '${file.type}')`
   return dbquery(_sql)
 }

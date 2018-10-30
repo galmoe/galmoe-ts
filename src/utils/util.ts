@@ -1,3 +1,5 @@
+import * as fs from 'fs'
+
 export function bytesToSize (bytes: number) {
   if (bytes === 0) {
     return '0 B'
@@ -42,4 +44,10 @@ export function dateTime () {
   minute = minute < 10 ? ('0' + minute) : minute
   second = second < 10 ? ('0' + second) : second
   return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second
+}
+
+export function getFileSize(dir: string, filename: string):string {
+  const stats = fs.statSync(`${dir}/${filename}`)
+  const fileSizeInBytes = stats["size"]
+  return bytesToSize(fileSizeInBytes)
 }

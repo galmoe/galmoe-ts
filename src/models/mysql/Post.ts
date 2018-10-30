@@ -1,4 +1,5 @@
-import {dbquery} from '../../db/mysql'
+import { dbquery } from '../../db/mysql'
+import * as xss from 'xss'
 
 export interface PostType {
   pid?: number;

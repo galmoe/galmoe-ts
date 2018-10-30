@@ -1,7 +1,6 @@
 import { Context } from 'koa'
 import { Check } from '../utils/check'
 import * as Session from '../models/mysql/Session'
-import { UserController } from './user'
 import * as User from "../models/mysql/User";
 import { md5SUFFIX } from "../../lib/md5";
 
@@ -10,6 +9,7 @@ export class SessionController {
   static async check(ctx: Context, next: any) {
     const cuid = Number(ctx.cookies.get('cuid'))
     const uid = Number(ctx.session.uid)
+    console.log('cuid: ', cuid, 'uid: ', uid)
     if (cuid !== uid) {
       // 删除cookie
       ctx.cookies.set('cuid', '')

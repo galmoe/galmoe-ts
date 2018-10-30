@@ -5,15 +5,6 @@ import * as router from './routes'
 import * as koaBody from 'koa-body'
 import * as bodyParser from 'koa-bodyparser'
 const session = require('koa-session2')
-
-
-// import * as session from 'koa-session'
-// import { redisStoreConfig } from "./models/redis/Session";
-// import {Session} from "koa-session";
-// import {opts} from "koa-session";
-// const redis = require('ioredis')
-
-// const redisStore = require('koa-redis');
 const staticCache = require('koa-static-cache')
 const cors = require('koa2-cors')
 
@@ -38,6 +29,15 @@ app.use(cors({
 app.keys = Array.from({length: 50}, (v, i) => String(i + Math.floor((Math.random() * 100) + 1)))
 app.use(session(sessionConfig))
 
+// let filePath = ''
+// let fileName = ''
+
+let fileInfo = {
+  dir: '',
+  fname: '',
+  type: ''
+}
+
 // file upload
 app.use(koaBody({
   multipart: true,
@@ -45,12 +45,11 @@ app.use(koaBody({
     hash: 'md5',
     uploadDir: uploadDir(),
     maxFileSize: 3 * 1024 * 1024, // 3m,
+    keepExtensions: true,
     onFileBegin: function (name, file) {
-      const filename = path.basename(file.path);
-      const folder = path.dirname(file.path);
-      console.log(filename, folder)
-      // Manipulate the filename
-      // file.path = path.join(folder, filename);
+      fileInfo.dir = path.dirname(file.path)
+      fileInfo.fname = path.basename(file.path)
+      fileInfo.type = file.type
     }
   }
 }))
@@ -93,5 +92,9 @@ app.use(async (ctx, next) => {
 app.use(router.routes());
 
 app.listen(serve.port);
+
+export function fileInfoF() {
+  return fileInfo
+}
 
 console.log(`Server running on port ${serve.port}`);
