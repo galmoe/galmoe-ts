@@ -7,6 +7,7 @@ const router = new Router({
 
 router
   .get('/', PostController.getPost)
+  .get('/:pid', PostController.getPostD)
 
 
 export = router

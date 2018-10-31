@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 30/10/2018 23:16:51
+ Date: 31/10/2018 23:01:19
 */
 
 SET NAMES utf8mb4;
@@ -35,19 +35,21 @@ DROP TABLE IF EXISTS `post`;
 CREATE TABLE `post`  (
   `pid` int(8) NOT NULL AUTO_INCREMENT,
   `title` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `sub_title` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `uid` int(8) NOT NULL,
   `date` datetime(0) NOT NULL,
   `category` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `pv` int(8) NOT NULL DEFAULT 0,
-  `cv` int(8) NOT NULL DEFAULT 0,
   `lv` int(8) NOT NULL DEFAULT 0,
+  `fv` int(8) NOT NULL DEFAULT 0,
+  `cv` int(8) NOT NULL DEFAULT 0,
   `thumb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `intro` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `hash` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`pid`, `hash`) USING BTREE,
   INDEX `pid`(`pid`) USING BTREE,
   INDEX `hash`(`hash`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for post_d
@@ -61,6 +63,7 @@ CREATE TABLE `post_d`  (
   `pwd` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `compress` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `meta` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `tag` json NULL,
   PRIMARY KEY (`hash`) USING BTREE,
   CONSTRAINT `del` FOREIGN KEY (`hash`) REFERENCES `post` (`hash`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
