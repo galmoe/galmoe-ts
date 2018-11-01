@@ -1,6 +1,6 @@
 import { Context } from 'koa'
 import * as Post from '../models/mysql/Post'
-import {JSON_CONFIG_FILENAME} from "tslint/lib/configuration";
+
 
 export class PostController {
   static async getPost(ctx: Context) {
@@ -20,11 +20,22 @@ export class PostController {
   static async getPostD(ctx: Context) {
     const pid =  Number(ctx.params.pid) || 1
     let data = (await Post.getPostD(pid))[0]
-    let tag = JSON.parse(data.tag)
+    let tag = []
+    if (data.tag) {
+      tag = JSON.parse(data.tag)
+    }
     data.tag = [...tag]
     ctx.body = {
       code: 200,
       data
+    }
+  }
+
+  static async download(ctx: Context) {
+    const pid =  Number(ctx.params.pid) || 1
+    ctx.body = {
+      code: 200,
+      data: (await Post.download(pid))[0]
     }
   }
 }

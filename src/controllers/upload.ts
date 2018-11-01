@@ -3,7 +3,7 @@ import * as path from 'path'
 import { Context } from 'koa'
 import { host } from '../../config'
 import * as Upload from '../models/mysql/Upload'
-import { saveAvatar } from '../models/mysql/Session'
+import { saveAvatar, saveBackground } from '../models/mysql/Session'
 import { randomMd5 } from '../../lib/md5'
 import { getFileSize } from '../utils/util'
 import { fileInfoF } from "../server"
@@ -49,19 +49,24 @@ export const uploadFile = async (ctx: Context) => {
   // })
   // const
   // 写入mysql
-  let fileObj = {...fileInfo, uid, size: getFileSize(fileInfo.dir, fileInfo.fname)}
-  await Upload.saveInfo(fileObj).catch(error => {
+  // fs.createReadStream(`${fileInfo.dir}/${fileInfo.hash}`).pipe(fs.createWriteStream(`${fileInfo.dir}/${fileInfo.fname}`));
+  let fileObj = {...fileInfo, uid, size: getFileSize(`${fileInfo.dir}/${fileInfo.fname}`)}
+  await Upload.saveFileInfo(fileObj).catch(error => {
     return ctx.body = {
       type: 'error',
       msg: '上传失败'
     }
   })
+  const src = `${host}/files/${fileInfo.fname}`
   if (ctx.request.body.type === 'avatar') {
-    await saveAvatar(uid, `${host}/files/${fileInfo.fname}`)
+    await saveAvatar(uid, src)
+  }
+  if (ctx.request.body.type === 'background') {
+    await saveBackground(uid, src)
   }
   ctx.body = {
     type: 'success',
     msg: '上传成功',
-    src: `${host}/files/${fileInfo.fname}`
+    src
   }
 }

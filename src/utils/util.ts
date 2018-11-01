@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 
-export function bytesToSize (bytes: number) {
+export function bytesToSize(bytes: number): string {
   if (bytes === 0) {
     return '0 B'
   }
@@ -11,7 +11,7 @@ export function bytesToSize (bytes: number) {
 }
 
 // 10位 timeStamp => yyyy-mm-dd h:mm:ss
-export function formatDateTime (timeStamp: number) {
+export function formatDateTime(timeStamp: number): string {
   let date = new Date()
   date.setTime(timeStamp * 1000)
   let y: number | string = date.getFullYear()
@@ -29,7 +29,7 @@ export function formatDateTime (timeStamp: number) {
 }
 
 // yyyy-mm-dd h:mm:ss 时间
-export function dateTime () {
+export function dateTime() {
   let date = new Date()
   date.setTime(Date.now())
   let y: number | string = date.getFullYear()
@@ -46,8 +46,19 @@ export function dateTime () {
   return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second
 }
 
-export function getFileSize(dir: string, filename: string):string {
-  const stats = fs.statSync(`${dir}/${filename}`)
+export function getFileSize(path: string): string {
+  const stats = fs.statSync(path)
   const fileSizeInBytes = stats["size"]
   return bytesToSize(fileSizeInBytes)
+}
+
+export function transferContent(content: string): string {
+  return content.replace(/\n/gm, '<br>')
+}
+
+export function maxFiler(val: string, len: number): string {
+  if (val.length >= len) {
+    return val.slice(0, len)+'...'
+  }
+  return val
 }

@@ -3,6 +3,7 @@ import { Check } from '../utils/check'
 import * as Session from '../models/mysql/Session'
 import * as User from "../models/mysql/User";
 import { md5SUFFIX } from "../../lib/md5";
+import {log} from "util";
 
 
 export class SessionController {
@@ -29,6 +30,12 @@ export class SessionController {
   static async checkCaptcha(ctx: Context, next: any) {
     const req = ctx.request.body
     const { captcha } = ctx.session
+    if (!captcha || !req.captcha) {
+      return ctx.body = {
+        type: 'error',
+        msg: '验证码错误'
+      }
+    }
     const captchaReg = new RegExp(req.captcha, 'i')
     if (!captchaReg.test(captcha)) {
       return ctx.body = {

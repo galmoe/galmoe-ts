@@ -1,5 +1,5 @@
 import * as Router from 'koa-router'
-import {SessionController} from '../controllers/session'
+import { SessionController } from '../controllers/session'
 
 const router = new Router({
   prefix: '/s'

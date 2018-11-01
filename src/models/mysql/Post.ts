@@ -1,5 +1,7 @@
 import { randomMd5 } from "../../../lib/md5";
 import { dbquery } from '../../db/mysql'
+import { contentFilter } from "../../../lib/filters";
+import {maxFiler, transferContent} from "../../utils/util";
 import * as xss from 'xss'
 
 export interface PostType {
@@ -15,7 +17,9 @@ export interface PostType {
   lv?: number;
   fv?: number;
   thumb?: string;
+  content?: string;
   intro?: string;
+  download?:object;
 }
 
 export interface DownloadType {
@@ -29,16 +33,17 @@ export interface PostDType {
   hash?: string;
   content?: string;
   mkdown?: string;
-  download: DownloadType
+  download: DownloadType;
+  dv?: number;
 }
 
 export const post = async (uid: number, post: PostType) => {
-  let _sql = `INSERT INTO post (title, sub_title, uid, date, category, thumb, intro, \`hash\`) VALUES ('${post.title}', '${post.sub_title}', ${uid}, NOW(), '${post.category}', '${post.thumb}', '${post.intro}', '${post.hash}')`
+  let _sql = `INSERT INTO post (title, sub_title, uid, date, category, thumb, intro, download, \`hash\`) VALUES ('${post.title}', '${post.sub_title}', ${uid}, NOW(), '${post.category}', '${post.thumb}', '${maxFiler(transferContent(xss(post.content, contentFilter)), 200)}', ${(post.download ? 1: 0)}, '${post.hash}')`
   return dbquery(_sql)
 }
 
 export const postD = async (post: PostDType) => {
-  let _sql = `INSERT INTO post_d (\`hash\`, content, mkdown, link, pwd, compress, meta) VALUES ('${post.hash}', '${post.content}', '${post.mkdown}', '${post.download.link}', '${post.download.pwd}', '${post.download.compress}', '${post.download.meta}')`
+  let _sql = `INSERT INTO post_d (\`hash\`, content, mkdown, link, pwd, compress, meta) VALUES ('${post.hash}', '${transferContent(xss(post.content, contentFilter))}', '${post.mkdown}', '${post.download.link}', '${post.download.pwd}', '${post.download.compress}', '${post.download.meta}')`
   return dbquery(_sql)
 }
 
@@ -90,10 +95,8 @@ export const getPostD = async (pid: number) => {
               post.fv,
               post.cv,
               post.thumb,
+              post.download,
               post_d.content,
-              post_d.link,
-              post_d.pwd,
-              post_d.compress,
               post_d.meta,
               post_d.tag,
               \`user\`.uid,
@@ -103,6 +106,19 @@ export const getPostD = async (pid: number) => {
               post_d
               INNER JOIN post ON post_d.\`hash\` = post.\`hash\`
               INNER JOIN \`user\` ON post.uid = \`user\`.uid
+              WHERE
+              post.pid = ${pid}`
+  return dbquery(_sql)
+}
+
+export const download = async (pid: number) => {
+  let _sql = `SELECT
+              post_d.link,
+              post_d.pwd,
+              post_d.compress
+              FROM
+              post_d
+              INNER JOIN post ON post_d.\`hash\` = post.\`hash\`
               WHERE
               post.pid = ${pid}`
   return dbquery(_sql)

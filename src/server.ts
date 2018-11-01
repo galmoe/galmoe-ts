@@ -34,6 +34,7 @@ app.use(session(sessionConfig))
 
 let fileInfo = {
   dir: '',
+  hash: '',
   fname: '',
   type: ''
 }
@@ -45,10 +46,9 @@ app.use(koaBody({
     hash: 'md5',
     uploadDir: uploadDir(),
     maxFileSize: 3 * 1024 * 1024, // 3m,
-    keepExtensions: true,
     onFileBegin: function (name, file) {
       fileInfo.dir = path.dirname(file.path)
-      fileInfo.fname = path.basename(file.path)
+      fileInfo.fname =  path.basename(file.path)
       fileInfo.type = file.type
     }
   }
