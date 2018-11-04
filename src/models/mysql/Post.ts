@@ -98,7 +98,6 @@ export const getPostD = async (pid: number) => {
               post.download,
               post_d.content,
               post_d.meta,
-              post_d.tag,
               \`user\`.uid,
               \`user\`.uname,
               \`user\`.avatar

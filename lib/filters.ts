@@ -10,3 +10,12 @@ export const contentFilter = {
   }
 }
 
+export const introFilter = {
+  whiteList: {
+    a: ['href', 'title', 'target'],
+    br: [''],
+    p: [''],
+    span: [''],
+    blockquote: ['']
+  }
+}

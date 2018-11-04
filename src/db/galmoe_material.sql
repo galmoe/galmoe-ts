@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 31/10/2018 23:01:19
+ Date: 04/11/2018 20:53:49
 */
 
 SET NAMES utf8mb4;
@@ -46,10 +46,11 @@ CREATE TABLE `post`  (
   `thumb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `intro` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `hash` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `download` int(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`pid`, `hash`) USING BTREE,
   INDEX `pid`(`pid`) USING BTREE,
   INDEX `hash`(`hash`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for post_d
@@ -64,8 +65,24 @@ CREATE TABLE `post_d`  (
   `compress` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `meta` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `tag` json NULL,
+  `dv` int(8) NULL DEFAULT 0,
   PRIMARY KEY (`hash`) USING BTREE,
   CONSTRAINT `del` FOREIGN KEY (`hash`) REFERENCES `post` (`hash`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for tag
+-- ----------------------------
+DROP TABLE IF EXISTS `tag`;
+CREATE TABLE `tag`  (
+  `pid` int(8) NOT NULL,
+  `tag` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `uid` int(8) NOT NULL,
+  `del` int(8) NULL DEFAULT NULL,
+  `type` int(1) NOT NULL DEFAULT 0,
+  `date` datetime(0) NOT NULL,
+  INDEX `key`(`pid`) USING BTREE,
+  CONSTRAINT `key` FOREIGN KEY (`pid`) REFERENCES `post` (`pid`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------

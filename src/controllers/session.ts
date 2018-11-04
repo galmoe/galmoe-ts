@@ -3,7 +3,6 @@ import { Check } from '../utils/check'
 import * as Session from '../models/mysql/Session'
 import * as User from "../models/mysql/User";
 import { md5SUFFIX } from "../../lib/md5";
-import {log} from "util";
 
 
 export class SessionController {

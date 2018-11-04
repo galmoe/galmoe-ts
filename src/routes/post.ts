@@ -10,6 +10,8 @@ router
   .get('/', PostController.getPost)
   .get('/:pid', PostController.getPostD)
   .post('/download/:pid', SessionController.checkCaptcha, PostController.download)
+  .post('/tag/:pid', SessionController.check, PostController.addTag)
+  .del('/tag/:pid', SessionController.check, PostController.removeTag)
 
 
 export = router

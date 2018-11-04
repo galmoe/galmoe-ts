@@ -57,4 +57,87 @@ export class UserController {
       }
     }
   }
+
+  // user page
+  static async post(ctx: Context) {
+    const { query } = ctx
+    const { total } = (await User.postTotal(query.uid))[0]
+    ctx.body = {
+      data: {
+        posts: (await User.post(query.uid, query.page, query.count)),
+        total,
+        page: query.page || 1
+      }
+    }
+  }
+
+  static async fav(ctx: Context) {
+    const req = ctx.request.body;
+    const {total} = (await User.checkEmail(req.email))[0];
+    if (total) {
+      ctx.body = {
+        status: 'failed'
+      }
+    } else {
+      ctx.body = {
+        status: 'ok'
+      }
+    }
+  }
+
+  static async comment(ctx: Context) {
+    const req = ctx.request.body;
+    const {total} = (await User.checkEmail(req.email))[0];
+    if (total) {
+      ctx.body = {
+        status: 'failed'
+      }
+    } else {
+      ctx.body = {
+        status: 'ok'
+      }
+    }
+  }
+
+  static async about(ctx: Context) {
+    const req = ctx.request.body;
+    const {total} = (await User.checkEmail(req.email))[0];
+    if (total) {
+      ctx.body = {
+        status: 'failed'
+      }
+    } else {
+      ctx.body = {
+        status: 'ok'
+      }
+    }
+  }
+
+  static async following(ctx: Context) {
+    const req = ctx.request.body;
+    const {total} = (await User.checkEmail(req.email))[0];
+    if (total) {
+      ctx.body = {
+        status: 'failed'
+      }
+    } else {
+      ctx.body = {
+        status: 'ok'
+      }
+    }
+  }
+
+  static async follower(ctx: Context) {
+    const req = ctx.request.body;
+    const {total} = (await User.checkEmail(req.email))[0];
+    if (total) {
+      ctx.body = {
+        status: 'failed'
+      }
+    } else {
+      ctx.body = {
+        status: 'ok'
+      }
+    }
+  }
 }
