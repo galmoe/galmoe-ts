@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 04/11/2018 20:53:49
+ Date: 05/11/2018 23:25:06
 */
 
 SET NAMES utf8mb4;
@@ -23,9 +23,8 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `fav`;
 CREATE TABLE `fav`  (
   `uid` int(8) NOT NULL,
-  `fav` json NULL,
-  PRIMARY KEY (`uid`) USING BTREE,
-  CONSTRAINT `fav` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`) ON DELETE CASCADE ON UPDATE RESTRICT
+  `pid` int(8) NOT NULL,
+  `date` datetime(0) NOT NULL
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -50,7 +49,7 @@ CREATE TABLE `post`  (
   PRIMARY KEY (`pid`, `hash`) USING BTREE,
   INDEX `pid`(`pid`) USING BTREE,
   INDEX `hash`(`hash`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for post_d
@@ -113,6 +112,8 @@ CREATE TABLE `user`  (
   `sign` varchar(35) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `following` int(8) NOT NULL DEFAULT 0,
   `follower` int(8) NOT NULL DEFAULT 0,
+  `intro` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `links` json NULL,
   PRIMARY KEY (`uid`, `uname`, `email`) USING BTREE,
   UNIQUE INDEX `uname`(`uname`) USING BTREE,
   UNIQUE INDEX `email`(`email`) USING BTREE,
