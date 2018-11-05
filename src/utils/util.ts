@@ -62,3 +62,7 @@ export function maxFiler(val: string, len: number): string {
   }
   return val
 }
+
+export function escapeChar(text: string): string {
+  return text.replace(/\'/g, "\\\'");
+}

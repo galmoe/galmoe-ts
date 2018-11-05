@@ -17,15 +17,32 @@ export class PublishController {
   static async publish(ctx: Context) {
     const { uid } = ctx.state
     let req = ctx.request.body
-    console.log(req)
-    if (!req.content || !req.mkdown || !req.title || !req.category) {
+    if (!req.content || !req.mkdown) {
       return ctx.body = {
         type: 'error',
-        msg: '缺少字段'
+        msg: '缺少内容'
+      }
+    }
+    if (req.title) {
+      return ctx.body = {
+        type: 'error',
+        msg: '缺少标题'
+      }
+    }
+    if (!req.category) {
+      return ctx.body = {
+        type: 'error',
+        msg: '缺少分类'
       }
     }
     req.hash = randomMd5()
     await Post.post(uid, req)
+      .catch((e) => {
+        return ctx.body = {
+          type: 'error',
+          msg: '发布失败'
+        }
+      })
     await Post.postD(req)
     const { pid } = (await Post.getPidByHash(req.hash))[0]
     ctx.body =  {

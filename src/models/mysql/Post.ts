@@ -1,7 +1,7 @@
 import { randomMd5 } from "../../../lib/md5";
 import { dbquery } from '../../db/mysql'
 import { contentFilter } from "../../../lib/filters";
-import {maxFiler, transferContent} from "../../utils/util";
+import { maxFiler, transferContent, escapeChar } from "../../utils/util";
 import * as xss from 'xss'
 
 export interface PostType {
@@ -38,12 +38,12 @@ export interface PostDType {
 }
 
 export const post = async (uid: number, post: PostType) => {
-  let _sql = `INSERT INTO post (title, sub_title, uid, date, category, thumb, intro, download, \`hash\`) VALUES ('${post.title}', '${post.sub_title}', ${uid}, NOW(), '${post.category}', '${post.thumb}', '${maxFiler(transferContent(xss(post.content, contentFilter)), 200)}', ${(post.download ? 1: 0)}, '${post.hash}')`
+  let _sql = `INSERT INTO post (title, sub_title, uid, date, category, thumb, intro, download, \`hash\`) VALUES ('${post.title}', '${post.sub_title}', ${uid}, NOW(), '${post.category}', '${post.thumb}', '${maxFiler(transferContent(escapeChar(xss(post.content, contentFilter))), 200)}', ${(post.download ? 1: 0)}, '${post.hash}')`
   return dbquery(_sql)
 }
 
 export const postD = async (post: PostDType) => {
-  let _sql = `INSERT INTO post_d (\`hash\`, content, mkdown, link, pwd, compress, meta) VALUES ('${post.hash}', '${transferContent(xss(post.content, contentFilter))}', '${post.mkdown}', '${post.download.link}', '${post.download.pwd}', '${post.download.compress}', '${post.download.meta}')`
+  let _sql = `INSERT INTO post_d (\`hash\`, content, mkdown, link, pwd, compress, meta) VALUES ('${post.hash}', '${transferContent(escapeChar(xss(post.content, contentFilter)))}', '${escapeChar(post.mkdown)}', '${post.download.link}', '${post.download.pwd}', '${post.download.compress}', '${escapeChar(post.download.meta)}')`
   return dbquery(_sql)
 }
 
