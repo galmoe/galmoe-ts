@@ -4,7 +4,7 @@ import { createPool } from 'mysql'
 const pool = createPool(mysqlClientConfig)
 
 
-export const dbquery = (sql:string, values?:any[]):Promise<any> => {
+export const dbquery = (sql:string, values?:any[] | object):Promise<any> => {
   return new Promise((resolve, reject) => {
     pool.getConnection((err:any, connection:any) => {
       if (err) {

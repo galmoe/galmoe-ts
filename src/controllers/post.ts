@@ -6,7 +6,6 @@ import * as Tag from '../models/mysql/Tag'
 export class PostController {
   static async getPost(ctx: Context) {
     const { query } = ctx.request
-    console.log(query)
     const page = Number(query.page) || 1
     ctx.body = {
       code: 200,
@@ -22,6 +21,7 @@ export class PostController {
     const pid =  Number(ctx.params.pid) || 1
     let data = (await Post.getPostD(pid))[0]
     data.tag = (await Tag.getTag(pid))
+    await Post.addPv(pid)
     ctx.body = {
       code: 200,
       data

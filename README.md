@@ -19,6 +19,7 @@ npm run watch-server-ts
 npm run serve
 ```
 
+### 配置
 node-form
 ```js
 node_modules\formidable\lib\incoming_form.js

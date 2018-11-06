@@ -36,6 +36,7 @@ export const post = async (uid: number, page:number = 1, count: number = 25) => 
               pid, uid, title, date, pv, lv, fv, thumb
               FROM post WHERE
               uid = ${uid}
+              ORDER BY post.date DESC
               LIMIT ${(page - 1) * count}, ${count}`
   return dbquery(_sql)
 }
@@ -60,6 +61,7 @@ export const fav = async (uid: number, page:number = 1, count: number = 25) => {
                 INNER JOIN post ON fav.pid = post.pid
                 WHERE
                 fav.uid = ${uid}
+                ORDER BY post.date DESC
                 LIMIT ${(page - 1) * count}, ${count}`
   return dbquery(_sql)
 }

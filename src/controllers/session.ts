@@ -2,6 +2,7 @@ import { Context } from 'koa'
 import { Check } from '../utils/check'
 import * as Session from '../models/mysql/Session'
 import * as User from "../models/mysql/User";
+import { postAuthor } from "../models/mysql/Post";
 import { md5SUFFIX } from "../../lib/md5";
 
 
@@ -44,6 +45,36 @@ export class SessionController {
     } else {
       // 验证码通过, 删除captcha
       delete ctx.session.captcha
+      return next()
+    }
+  }
+
+  static async isAuthorByPost(ctx: Context, next: any) {
+    const { uid } = ctx.state
+    const pid = Number(ctx.request.body.pid)
+    const autorId = (await postAuthor(pid))[0].uid
+    if (uid !== autorId) {
+      return ctx.body =  {
+        type: 'error',
+        msg: '身份错误'
+      }
+    } else {
+      ctx.state.pid = pid
+      return next()
+    }
+  }
+
+  static async isAuthorByQuery(ctx: Context, next: any) {
+    const { uid } = ctx.state
+    const pid = Number(ctx.query.pid)
+    const autorId = (await postAuthor(pid))[0].uid
+    if (uid !== autorId) {
+      return ctx.body =  {
+        type: 'error',
+        msg: '身份错误'
+      }
+    } else {
+      ctx.state.pid = pid
       return next()
     }
   }

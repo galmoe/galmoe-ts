@@ -7,8 +7,11 @@ const router = new Router({
 })
 
 router
-  .get('/', SessionController.check, PublishController.edit)
+  .get('/', SessionController.check, SessionController.isAuthorByQuery, PublishController.edit)
+  .put('/', SessionController.check,  SessionController.isAuthorByPost, PublishController.update)
+  .del('/', SessionController.check,  SessionController.isAuthorByQuery, PublishController.remove)
   .post('/', SessionController.check, PublishController.publish)
+  .get('/list', SessionController.check, PublishController.list)
 
 
 export = router

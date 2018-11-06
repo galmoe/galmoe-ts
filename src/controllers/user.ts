@@ -61,7 +61,9 @@ export class UserController {
   // user page
   static async post(ctx: Context) {
     const { query } = ctx
-    query.count = Number(query.count)
+    const uid  = Number(query.uid) || 1
+    const page = Number(query.page) || 1
+    const count = Number(query.count) || 1
     const { total } = (await User.postTotal(query.uid))[0]
     const countRange = [5, 25]
     if (!countRange.includes(query.count)) {
@@ -69,50 +71,56 @@ export class UserController {
     }
     ctx.body = {
       data: {
-        posts: (await User.post(query.uid, query.page, query.count)),
+        posts: (await User.post(uid, page, count)),
         total,
-        page: query.page || 1
+        page
       }
     }
   }
 
   static async fav(ctx: Context) {
     const { query } = ctx
-    const { total } = (await User.favTotal(query.uid))[0]
-    query.count = Number(query.count)
+    const uid  = Number(query.uid) || 1
+    const page = Number(query.page) || 1
+    const count = Number(query.count) || 1
+    const { total } = (await User.favTotal(uid))[0]
     const countRange = [5, 25]
     if (!countRange.includes(query.count)) {
       query.count = 5
     }
     ctx.body = {
       data: {
-        posts: (await User.fav(query.uid, query.page, query.count)),
+        posts: (await User.fav(uid, page, count)),
         total,
-        page: query.page || 1
+        page
       }
     }
   }
 
   static async addFav(ctx: Context) {
     const { query } = ctx
-    const { total } = (await User.favTotal(query.uid))[0];
+    const uid  = Number(query.uid) || 1
+    const page = Number(query.page) || 1
+    const { total } = (await User.favTotal(uid))[0];
     ctx.body = {
       data: {
-        posts: (await User.fav(query.uid, query.page)),
+        posts: (await User.fav(uid, page)),
         total,
-        page: query.page || 1
+        page
       }
     }
   }
 
   static async removeFav(ctx: Context) {
     const { query } = ctx
-    const { total } = (await User.favTotal(query.uid))[0];
+    const uid  = Number(query.uid) || 1
+    const page = Number(query.page) || 1
+    const { total } = (await User.favTotal(uid))[0];
     ctx.body = {
       data: {
-        posts: (await User.fav(query.uid, query.page)),
+        posts: (await User.fav(uid, page)),
         total,
-        page: query.page || 1
+        page
       }
     }
   }
