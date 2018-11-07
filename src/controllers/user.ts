@@ -63,11 +63,11 @@ export class UserController {
     const { query } = ctx
     const uid  = Number(query.uid) || 1
     const page = Number(query.page) || 1
-    const count = Number(query.count) || 1
-    const { total } = (await User.postTotal(query.uid))[0]
+    let count = Number(query.count) || 1
+    const { total } = (await User.postTotal(uid))[0]
     const countRange = [5, 25]
-    if (!countRange.includes(query.count)) {
-      query.count = 5
+    if (!countRange.includes(count)) {
+      count = 5
     }
     ctx.body = {
       data: {
@@ -82,11 +82,11 @@ export class UserController {
     const { query } = ctx
     const uid  = Number(query.uid) || 1
     const page = Number(query.page) || 1
-    const count = Number(query.count) || 1
+    let count = Number(query.count) || 1
     const { total } = (await User.favTotal(uid))[0]
     const countRange = [5, 25]
-    if (!countRange.includes(query.count)) {
-      query.count = 5
+    if (!countRange.includes(count)) {
+      count = 5
     }
     ctx.body = {
       data: {
@@ -141,7 +141,8 @@ export class UserController {
 
   static async about(ctx: Context) {
     const { query } = ctx
-    const data = (await User.about(query.uid))[0]
+    const uid  = Number(query.uid) || 1
+    const data = (await User.about(uid))[0]
     if (!data) {
       return ctx.body = {
         data: {
@@ -193,7 +194,7 @@ export class UserController {
 
   static async follower(ctx: Context) {
     const req = ctx.request.body;
-    const {total} = (await User.checkEmail(req.email))[0];
+    const { total } = (await User.checkEmail(req.email))[0];
     if (total) {
       ctx.body = {
         status: 'failed'
