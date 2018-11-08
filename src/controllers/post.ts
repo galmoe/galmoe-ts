@@ -20,6 +20,12 @@ export class PostController {
   static async getPostD(ctx: Context) {
     const pid =  Number(ctx.params.pid) || 1
     let data = (await Post.getPostD(pid))[0]
+    if (!data) {
+      return ctx.body = {
+        type: 'error',
+        msg: '未找到文章数据'
+      }
+    }
     data.tag = (await Tag.getTag(pid))
     await Post.addPv(pid)
     ctx.body = {

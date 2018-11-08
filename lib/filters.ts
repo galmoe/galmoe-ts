@@ -19,3 +19,22 @@ export const introFilter = {
     blockquote: ['']
   }
 }
+
+export const commentFilter = {
+  whiteList: {
+    a: ['href', 'title', 'target'],
+    br: [''],
+    p: [''],
+    span: [''],
+    image: ['src']
+  }
+}
+
+export const replyFilter = {
+  whiteList: {
+    a: ['href', 'title', 'target'],
+    br: [''],
+    p: [''],
+    span: ['']
+  }
+}

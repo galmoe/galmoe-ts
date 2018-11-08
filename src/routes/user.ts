@@ -7,7 +7,7 @@ const router = new Router({
 })
 
 router
-  .get('/info/:uid', UserController.getUserInfo)
+  .get('/info/:uid(\\d+)', UserController.getUserInfo)
   .post('/', UserController.postInfo)
   .post('/check/uname', UserController.checkUname)
   .post('/check/email', UserController.checkEmail)

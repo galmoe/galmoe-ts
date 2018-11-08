@@ -11,11 +11,28 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 05/11/2018 23:25:06
+ Date: 08/11/2018 22:59:57
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for comment
+-- ----------------------------
+DROP TABLE IF EXISTS `comment`;
+CREATE TABLE `comment`  (
+  `cid` int(8) NOT NULL AUTO_INCREMENT,
+  `pid` int(8) NOT NULL,
+  `uid` int(8) NOT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `date` datetime(0) NOT NULL,
+  `flag` int(1) NOT NULL DEFAULT 0,
+  `lv` int(8) NULL DEFAULT NULL,
+  `dv` int(8) NULL DEFAULT NULL,
+  `rv` int(8) NULL DEFAULT NULL,
+  PRIMARY KEY (`cid`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for fav
@@ -49,7 +66,7 @@ CREATE TABLE `post`  (
   PRIMARY KEY (`pid`, `hash`) USING BTREE,
   INDEX `pid`(`pid`) USING BTREE,
   INDEX `hash`(`hash`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for post_d
@@ -68,6 +85,21 @@ CREATE TABLE `post_d`  (
   PRIMARY KEY (`hash`) USING BTREE,
   CONSTRAINT `del` FOREIGN KEY (`hash`) REFERENCES `post` (`hash`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for reply
+-- ----------------------------
+DROP TABLE IF EXISTS `reply`;
+CREATE TABLE `reply`  (
+  `rid` int(8) NOT NULL AUTO_INCREMENT,
+  `cid` int(8) NULL DEFAULT NULL,
+  `parent` int(8) NULL DEFAULT NULL,
+  `uid` int(8) NOT NULL,
+  `receiver` int(8) NULL DEFAULT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `is_read` int(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`rid`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for tag
