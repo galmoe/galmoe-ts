@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 08/11/2018 22:59:57
+ Date: 09/11/2018 23:15:40
 */
 
 SET NAMES utf8mb4;
@@ -93,13 +93,15 @@ DROP TABLE IF EXISTS `reply`;
 CREATE TABLE `reply`  (
   `rid` int(8) NOT NULL AUTO_INCREMENT,
   `cid` int(8) NULL DEFAULT NULL,
-  `parent` int(8) NULL DEFAULT NULL,
+  `parent` int(8) NOT NULL DEFAULT 0,
   `uid` int(8) NOT NULL,
   `receiver` int(8) NULL DEFAULT NULL,
+  `r_name` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `is_read` int(1) NULL DEFAULT NULL,
+  `date` datetime(0) NOT NULL,
   PRIMARY KEY (`rid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for tag
