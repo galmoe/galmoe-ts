@@ -3,6 +3,7 @@ import { commentFilter, replyFilter} from "../../../lib/filters";
 import * as xss from 'xss'
 import { maxFiler, transferContent, escapeChar } from "../../utils/util";
 
+
 export interface CommentType {
   cid?: number;
   pid?: number;
@@ -70,6 +71,8 @@ export const total = async (pid: number) => {
 }
 
 export const insertOne = async (uid: number, pid: number, content: string) => {
-  let _sql = `INSERT INTO \`comment\` (pid, uid, content, date) VALUES (${pid}, ${uid}, '${maxFiler(transferContent(escapeChar(xss(content, commentFilter))), 1000)}', NOW())`
+  let _sql = `INSERT INTO \`comment\` (pid, uid, content, date) VALUES (${pid}, ${uid}, '${maxFiler(transferContent(escapeChar(xss(content, commentFilter))), 1000)}', NOW());
+              UPDATE post SET cv = cv + 1 WHERE pid = ${pid}
+              SELECT MAX(cid) cid FROM \`comment\`;`
   return dbquery(_sql)
 }

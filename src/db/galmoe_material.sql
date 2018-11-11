@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 09/11/2018 23:15:40
+ Date: 11/11/2018 23:13:03
 */
 
 SET NAMES utf8mb4;
@@ -28,11 +28,11 @@ CREATE TABLE `comment`  (
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `date` datetime(0) NOT NULL,
   `flag` int(1) NOT NULL DEFAULT 0,
-  `lv` int(8) NULL DEFAULT NULL,
-  `dv` int(8) NULL DEFAULT NULL,
-  `rv` int(8) NULL DEFAULT NULL,
+  `lv` int(8) NOT NULL DEFAULT 0,
+  `dv` int(8) NOT NULL DEFAULT 0,
+  `rv` int(8) NOT NULL DEFAULT 0,
   PRIMARY KEY (`cid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for fav
@@ -101,7 +101,7 @@ CREATE TABLE `reply`  (
   `is_read` int(1) NULL DEFAULT NULL,
   `date` datetime(0) NOT NULL,
   PRIMARY KEY (`rid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 39 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for tag

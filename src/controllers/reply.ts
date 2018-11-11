@@ -7,7 +7,14 @@ export class ReplyController {
     const { query } = ctx
     const cid = Number(query.cid) || 1
     const page = Number(query.page) || 1
-    const total = (await Reply.total(cid))[0].rv
+    const rv = (await Reply.total(cid))[0]
+    if (!rv) {
+      return ctx.body = {
+        type: 'warning',
+        msg: '暂无回复'
+      }
+    }
+    const { total } = rv
     ctx.body = {
       data: {
         replies: await Reply.getReplies(cid, page),
@@ -24,14 +31,13 @@ export class ReplyController {
     const has = ['cid', 'receiver', 'r_name', 'content', 'parent']
     let replyObj = {
       uid,
-      cid: 1,
-      content: '',
       ..._.pick(req, ...has)
     }
-    await Reply.insertOne(replyObj)
+    const res = (await Reply.insertOne(replyObj))[3]
+    const { rid } = res[0]
     ctx.body = {
       type: 'success',
-      msg: '添加评论成功'
+      rid
     }
   }
 }

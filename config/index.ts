@@ -14,20 +14,13 @@ import { RedisStore } from "../src/models/redis/Session";
 //     path = `${__dirname}/../../.env.development`;
 // }
 // dotenv.config({ path: path });
+import { ConnectionConfig } from 'mysql'
 
 interface Serve {
   port: number;
   host?: string;
   cors?: string;
   maxAge?: number;
-}
-
-interface MysqlClient {
-  host: string;
-  user: string;
-  password: string;
-  database: string;
-  port: number;
 }
 
 interface RedisClient {
@@ -58,12 +51,13 @@ export const serve:Serve = {
   maxAge: 7 * 24 * 60 * 60 // 7 days cache
 }
 
-export const mysqlClientConfig:MysqlClient = {
+export const mysqlClientConfig:ConnectionConfig = {
   host: 'localhost',
   port: 3307,
   user: 'root',
   password: '111111',
-  database: 'galmoe_material'
+  database: 'galmoe_material',
+  multipleStatements: true
 }
 
 export const redisClientConfig:RedisClient = {

@@ -34,7 +34,6 @@ export const replyFilter = {
   whiteList: {
     a: ['href', 'title', 'target'],
     br: [''],
-    p: [''],
-    span: ['']
+    p: ['']
   }
 }

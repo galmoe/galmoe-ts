@@ -48,13 +48,19 @@ export const getReplies = async (cid: number, page:number = 1) => {
 }
 
 export const total = async (cid: number) => {
-  let _sql = `SELECT rv FROM comment WHERE cid = ${cid}`
+  let _sql = `SELECT rv total FROM comment WHERE cid = ${cid}`
   return dbquery(_sql)
 }
 
 export const insertOne = async (replyObj: any) => {
-  // let _sql = `INSERT INTO \`comment\` (pid, uid, content, date) VALUES (${pid}, ${uid}, '${maxFiler(transferContent(escapeChar(xss(content, commentFilter))), 1000)}', NOW())`
-  // let _sql = `INSERT INTO reply (cid, parent, uid, receiver, r_name, content, date) VALUES (1, null, 1, 1, 'Beats0', 'some content', NOW())`
-  let _sql = `INSERT INTO reply SET ?`
-  return dbquery(_sql, { ...replyObj , content: maxFiler(transferContent(escapeChar(xss(replyObj.content, commentFilter))), 1000)})
+  let _sql = `
+  INSERT INTO reply (cid, parent, uid, receiver, r_name, content, date) VALUES (${replyObj.cid}, ${replyObj.parent}, ${replyObj.uid}, ${replyObj.receiver}, '${escapeChar(replyObj.r_name)}', '${maxFiler(transferContent(escapeChar(xss(replyObj.content, replyFilter))), 1000)}', NOW());
+  UPDATE \`comment\` SET rv = rv + 1 WHERE cid = ${replyObj.cid};
+  UPDATE post p
+      JOIN comment c ON p.pid = c.pid
+  SET p.cv = p.cv + 1
+  WHERE c.cid = ${replyObj.cid};
+  SELECT MAX(rid) rid FROM reply;`
+  console.log(_sql)
+  return dbquery(_sql)
 }

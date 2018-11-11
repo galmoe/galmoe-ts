@@ -12,6 +12,7 @@ export class CommentController {
         data: {
           lists: (await Comment.getCommentByH(pid, page)),
           page,
+          pages: Math.ceil(total / 25),
           total
         }
       }
@@ -20,6 +21,7 @@ export class CommentController {
         data: {
           lists: (await Comment.getCommentByT(pid, page)),
           page,
+          pages: Math.ceil(total / 25),
           total
         }
       }
@@ -30,10 +32,11 @@ export class CommentController {
     const { uid } = ctx.state
     const { pid } = ctx.params
     let { content } = ctx.request.body
-    await Comment.insertOne(uid, pid, content)
+    const res = (await Comment.insertOne(uid, pid, content))[2]
+    const { cid } = res[0]
     ctx.body = {
       type: 'success',
-      msg: '添加评论成功'
+      cid
     }
   }
 }
