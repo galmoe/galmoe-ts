@@ -57,7 +57,7 @@ export const uploadFile = async (ctx: Context) => {
       msg: '上传失败'
     }
   })
-  const src = `${host}/files/${fileInfo.fname}`
+  const src = `${host}/${fileInfo.fname}`
   if (ctx.request.body.type === 'avatar') {
     await saveAvatar(uid, src)
   }

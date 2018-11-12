@@ -26,7 +26,7 @@ interface Serve {
 interface RedisClient {
   host: string;
   port: number;
-  user?: string;
+  name?: string;
   password?: string;
   db?: number;
   prefix?:string;
@@ -54,7 +54,7 @@ export const serve:Serve = {
 export const mysqlClientConfig:ConnectionConfig = {
   host: 'localhost',
   port: 3307,
-  user: 'root',
+  user: 'mysql8',
   password: '111111',
   database: 'galmoe_material',
   multipleStatements: true
@@ -63,8 +63,7 @@ export const mysqlClientConfig:ConnectionConfig = {
 export const redisClientConfig:RedisClient = {
   port: 6379,
   host: '127.0.0.1',
-  user: '',
-  password: '',
+  password: 'redisRoot',
   family: 4,
   db: 0
 }
@@ -82,8 +81,8 @@ export const sessionConfig:SessionConfig = {
 
 
 // export const host = 'http://47.94.16.206'
-export const host = 'http://localhost:3000'
+export const host = 'http://192.168.10.101'
 
 export function uploadDir(): string {
-  return path.join(__dirname, `../public/files/`)
+  return path.join(__dirname, `../public/images/`)
 }
