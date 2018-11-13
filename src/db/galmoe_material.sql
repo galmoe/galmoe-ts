@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost3307
+ Source Server         : vm-mysql8
  Source Server Type    : MySQL
- Source Server Version : 50720
- Source Host           : localhost:3307
+ Source Server Version : 80013
+ Source Host           : 192.168.10.101:3306
  Source Schema         : galmoe_material
 
  Target Server Type    : MySQL
- Target Server Version : 50720
+ Target Server Version : 80013
  File Encoding         : 65001
 
- Date: 11/11/2018 23:13:03
+ Date: 13/11/2018 22:00:13
 */
 
 SET NAMES utf8mb4;
@@ -32,7 +32,7 @@ CREATE TABLE `comment`  (
   `dv` int(8) NOT NULL DEFAULT 0,
   `rv` int(8) NOT NULL DEFAULT 0,
   PRIMARY KEY (`cid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for fav
@@ -101,7 +101,7 @@ CREATE TABLE `reply`  (
   `is_read` int(1) NULL DEFAULT NULL,
   `date` datetime(0) NOT NULL,
   PRIMARY KEY (`rid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 39 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for tag
@@ -140,7 +140,7 @@ CREATE TABLE `user`  (
   `uname` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `email` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `pwd` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'https://raw.githubusercontent.com/galmoe/galmoe-ts/master/public/images/akkarin.jpg',
   `register` date NOT NULL,
   `background` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `sign` varchar(35) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
@@ -152,6 +152,6 @@ CREATE TABLE `user`  (
   UNIQUE INDEX `uname`(`uname`) USING BTREE,
   UNIQUE INDEX `email`(`email`) USING BTREE,
   INDEX `uid`(`uid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

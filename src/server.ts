@@ -1,3 +1,4 @@
+/// <reference path='../node_modules/koa-body/index.d.ts' />
 import * as path from 'path'
 import * as Koa from 'koa'
 import { serve, sessionConfig, uploadDir } from '../config'
@@ -45,6 +46,7 @@ app.use(koaBody({
   formidable: {
     hash: 'md5',
     uploadDir: uploadDir(),
+    keepExtensions: true,
     maxFileSize: 3 * 1024 * 1024, // 3m,
     onFileBegin: function (name, file) {
       fileInfo.dir = path.dirname(file.path)

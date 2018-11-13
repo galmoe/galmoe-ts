@@ -1,13 +1,16 @@
 ## galmoe ts
-[![Node](https://img.shields.io/badge/node-%3E=9.0.0-ff69b4.svg?style=flat-square)](https://nodejs.org/en/download/releases/)
-[![Mysql](https://img.shields.io/badge/mysql-%3E%3D5.7.8-%23ff69b4.svg?style=flat-square)](https://dev.mysql.com/downloads/mysql/)
+[![Node](https://img.shields.io/badge/node-%3E=11.1.0-ff69b4.svg?style=flat-square)](https://nodejs.org/en/download/releases/)
+[![Mysql](https://img.shields.io/badge/mysql-%3E%3D8.0-%23ff69b4.svg?style=flat-square)](https://dev.mysql.com/doc/refman/8.0/en/installing.html)
+[![Redis](https://img.shields.io/badge/redis-%3E%3D1.0.9-%23ff69b4.svg?style=flat-square)](https://redis.io/)
+[![Nginx](https://img.shields.io/badge/nginx-%3E%3D1.14.0-%23ff69b4.svg?style=flat-square)](https://redis.io/)
+[![Nginx](https://img.shields.io/badge/nginx_module-image_filter-%23ff69b4.svg?style=flat-square)](http://nginx.org/en/docs/http/ngx_http_image_filter_module.html)
 [![License](https://img.shields.io/badge/license-GPLV3-green.svg?style=flat-square)](https://github.com/galmoe/galmoe-server/blob/master/LICENSE)
 
 galmoe node server base on typescript and koa2
 
 重写中...
 
-完成度 20%
+完成度 30%
 
 ```js
 npm install
@@ -20,24 +23,5 @@ npm run serve
 ```
 
 ### 配置
-node-form
-```js
-node_modules\formidable\lib\incoming_form.js
-```
 
-改为
-```js
-IncomingForm.prototype._uploadPath = function(filename) {
-  var buf = crypto.randomBytes(16);
-  var name = buf.toString('hex');
-
-  if (this.keepExtensions) {
-    var ext = path.extname(filename);
-    ext     = ext.replace(/(\.[a-z0-9]+).*/i, '$1');
-
-    name += ext;
-  }
-
-  return path.join(this.uploadDir, name+'.webp');
-};
-```
+[doc](https://github.com/galmoe/galmoe-ts/tree/master/doc)

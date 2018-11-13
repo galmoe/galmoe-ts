@@ -1,5 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
+import * as gm from 'gm'
 import { Context } from 'koa'
 import { host } from '../../config'
 import * as Upload from '../models/mysql/Upload'
@@ -7,7 +8,6 @@ import { saveAvatar, saveBackground } from '../models/mysql/Session'
 import { randomMd5 } from '../../lib/md5'
 import { getFileSize } from '../utils/util'
 import { fileInfoF } from "../server"
-
 
 // file upload test
 export const getPage = async (ctx: Context) => {
@@ -24,7 +24,8 @@ export const getPage = async (ctx: Context) => {
 
 export const uploadFile = async (ctx: Context) => {
   // console.log(' ctx.request.files',  ctx.request.files)
-  const { uid } = ctx.state
+  // const { uid } = ctx.state
+  let uid = 1
   const fileInfo = fileInfoF()
   // const  file  = ctx.request.files.File           // 获取上传文件
   // const reader = fs.createReadStream(file.path) // 创建可读流
@@ -51,13 +52,24 @@ export const uploadFile = async (ctx: Context) => {
   // 写入mysql
   // fs.createReadStream(`${fileInfo.dir}/${fileInfo.hash}`).pipe(fs.createWriteStream(`${fileInfo.dir}/${fileInfo.fname}`));
   let fileObj = {...fileInfo, uid, size: getFileSize(`${fileInfo.dir}/${fileInfo.fname}`)}
-  await Upload.saveFileInfo(fileObj).catch(error => {
-    return ctx.body = {
-      type: 'error',
-      msg: '上传失败'
-    }
-  })
-  const src = `${host}/${fileInfo.fname}`
+  console.log('fileInfo2', fileInfo)
+  // await Upload.saveFileInfo(fileObj).catch(error => {
+  //   return ctx.body = {
+  //     type: 'error',
+  //     msg: '上传失败'
+  //   }
+  // })
+  const { fname } = fileInfo
+  let src = `${host}/${fileInfo.fname}.webp`
+  gm(`/data/github/galmoe/galmoe-ts/public/images/${fname}`)
+    .write(`/data/github/galmoe/galmoe-ts/public/images/${fname}.webp`, (err) => {
+      if (err) {
+        console.error(err);
+        ctx.body = {
+          data: 'error'
+        }
+      }
+    })
   if (ctx.request.body.type === 'avatar') {
     await saveAvatar(uid, src)
   }

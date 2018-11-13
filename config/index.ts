@@ -23,17 +23,6 @@ interface Serve {
   maxAge?: number;
 }
 
-interface RedisClient {
-  host: string;
-  port: number;
-  name?: string;
-  password?: string;
-  db?: number;
-  prefix?:string;
-  ttl?: number;
-  family?: number;    // ipv4 ? ipv6
-}
-
 interface SessionConfig {
   key: string;
   maxAge: number;
@@ -47,25 +36,17 @@ interface SessionConfig {
 
 export const serve:Serve = {
   port: 3000,
-  cors: 'http://localhost:8080',
+  cors: 'http://192.168.10.101:8080',
   maxAge: 7 * 24 * 60 * 60 // 7 days cache
 }
 
 export const mysqlClientConfig:ConnectionConfig = {
-  host: 'localhost',
-  port: 3307,
+  host: '192.168.10.101',
+  port: 3306,
   user: 'mysql8',
   password: '111111',
   database: 'galmoe_material',
   multipleStatements: true
-}
-
-export const redisClientConfig:RedisClient = {
-  port: 6379,
-  host: '127.0.0.1',
-  password: 'redisRoot',
-  family: 4,
-  db: 0
 }
 
 export const sessionConfig:SessionConfig = {
