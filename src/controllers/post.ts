@@ -1,18 +1,47 @@
+/// <reference path='../../node_modules/koa-body/index.d.ts' />
 import { Context } from 'koa'
 import * as Post from '../models/mysql/Post'
 import * as Tag from '../models/mysql/Tag'
+import { escapeChar, maxFiler } from "../utils/util";
 
 
 export class PostController {
   static async getPost(ctx: Context) {
     const { query } = ctx.request
     const page = Number(query.page) || 1
-    ctx.body = {
-      code: 200,
-      data: {
-        posts: await Post.getPost(page),
-        page,
-        total: (await Post.postTotal())[0].total
+    const type = maxFiler(escapeChar(query.type), 20)
+    console.log('query', query)
+    if (type === 'category') {
+      const category = maxFiler(escapeChar(query.category), 20)
+      ctx.body = {
+        code: 200,
+        data: {
+          posts: await Post.getPostByCategory(category, page),
+          page,
+          pages: Math.ceil(page / 25),
+          total: (await Post.postCategoryTotal(category))[0].total
+        }
+      }
+    } else if (type === 'tag') {
+      const tag = maxFiler(escapeChar(query.tag), 20)
+      ctx.body = {
+        code: 200,
+        data: {
+          posts: await Post.getPostByTag(tag, page),
+          page,
+          pages: Math.ceil(page / 25),
+          total: (await Post.postTagTotal(tag))[0].total
+        }
+      }
+    } else {
+      ctx.body = {
+        code: 200,
+        data: {
+          posts: await Post.getPost(page),
+          page,
+          pages: Math.ceil(page / 25),
+          total: (await Post.postTotal())[0].total
+        }
       }
     }
   }

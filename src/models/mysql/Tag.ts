@@ -1,4 +1,5 @@
 import { dbquery } from "../../db/mysql";
+import { escapeChar, maxFiler } from "../../utils/util";
 
 interface TagType {
   pid?: number;
@@ -36,7 +37,7 @@ export const getShowTag = async (pid: number) => {
 }
 
 export const add = async (pid: number, uid: number, tag: string) => {
-  let _sql = `INSERT INTO tag (pid, uid, tag, date) VALUES(${pid}, 1, '${tag}', NOW())`
+  let _sql = `INSERT INTO tag (pid, uid, tag, date) VALUES(${pid}, ${uid}, '${maxFiler(escapeChar(tag), 20)}', NOW())`
   return dbquery(_sql)
 }
 

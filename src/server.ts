@@ -47,7 +47,7 @@ app.use(koaBody({
     hash: 'md5',
     uploadDir: uploadDir(),
     keepExtensions: true,
-    maxFileSize: 3 * 1024 * 1024, // 3m,
+    maxFileSize: 4 * 1024 * 1024, // 4m,
     onFileBegin: function (name, file) {
       fileInfo.dir = path.dirname(file.path)
       fileInfo.fname =  path.basename(file.path)

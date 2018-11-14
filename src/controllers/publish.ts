@@ -1,3 +1,5 @@
+/// <reference path='../../node_modules/koa-body/index.d.ts' />
+
 import { Context } from 'koa'
 import { host } from '../../config'
 import * as Post from '../models/mysql/Post'
@@ -17,9 +19,29 @@ export class PublishController {
   static async update(ctx: Context) {
     const { uid, pid } = ctx.state
     const req = ctx.request.body
+    if (!req.content || !req.mkdown) {
+      return ctx.body = {
+        type: 'error',
+        msg: '缺少内容'
+      }
+    }
+    if (!req.title) {
+      return ctx.body = {
+        type: 'error',
+        msg: '缺少标题'
+      }
+    }
+    if (!req.category) {
+      return ctx.body = {
+        type: 'error',
+        msg: '缺少分类'
+      }
+    }
     await (Post.updatePost(pid, req))
     ctx.body = {
-      data: (await Post.editPost(uid, pid))
+      type: 'success',
+      msg: '更新成功',
+      link: `${host}/post/${pid}`
     }
   }
 

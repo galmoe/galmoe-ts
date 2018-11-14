@@ -39,6 +39,7 @@ export const saveAvatar = async (uid: number, avatar: string) => {
 
 export const saveBackground = async (uid: number, background: string) => {
   let _sql = `UPDATE \`user\` SET background = '${background}' WHERE uid = ${uid}`
+  console.log('saveBackground', _sql)
   return dbquery(_sql)
 }
 

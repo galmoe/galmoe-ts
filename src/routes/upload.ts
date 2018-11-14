@@ -8,7 +8,6 @@ const router = new Router({
 
 router
   .get('/', upload.getPage)
-  // .post('/',  SessionController.check, upload.uploadFile)
-  .post('/', upload.uploadFile)
+  .post('/', SessionController.check, upload.uploadFile)
 
 export = router

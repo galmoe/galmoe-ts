@@ -12,15 +12,14 @@ IncomingForm.prototype._uploadPath = function(filename) {
   if (this.keepExtensions) {
     var ext = path.extname(filename);
     ext     = ext.replace(/(\.[a-z0-9]+).*/i, '$1');
-
     name += ext;
   }
-
-  return path.join(this.uploadDir, name+'.webp');
+  
+  return path.join(this.uploadDir, name);
 };
 ```
 
-### gm
+### gm, webp
 ```
 sudo apt-get install graphicsmagick
 sudo apt-get install imagemagick

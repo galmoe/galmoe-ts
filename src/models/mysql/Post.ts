@@ -117,13 +117,81 @@ export const getPost = async (page: number = 1) => {
   return dbquery(_sql)
 }
 
-export const getPidByHash = async (hash: string) => {
-  let _sql = `SELECT pid FROM post WHERE \`hash\` = '${hash}'`
+export const postTotal = async () => {
+  let _sql = `SELECT COUNT(pid) total FROM post`
   return dbquery(_sql)
 }
 
-export const postTotal = async () => {
-  let _sql = `SELECT COUNT(pid) total FROM post`
+export const getPostByTag = async (tag: string, page: number=1) => {
+  let _sql = `SELECT
+              post.pid,
+              post.title,
+              post.sub_title,
+              post.uid,
+              post.date,
+              post.category,
+              post.pv,
+              post.cv,
+              post.lv,
+              post.fv,
+              post.thumb,
+              post.intro,
+              post.\`hash\`,
+              \`user\`.uname,
+              \`user\`.avatar,
+              tag.tag
+              FROM
+              post
+              INNER JOIN tag ON tag.pid = post.pid
+              INNER JOIN \`user\` ON \`user\`.uid = post.uid
+              WHERE
+              tag.tag = '${tag}'
+              ORDER BY
+              post.date DESC
+              LIMIT ${(page - 1) * 25}, 25`
+  return dbquery(_sql)
+}
+
+export const postTagTotal = async (tag: string) => {
+  let _sql = `SELECT COUNT(pid) total FROM tag WHERE tag = '${tag}'`
+  return dbquery(_sql)
+}
+
+export const getPostByCategory = async (category: string, page: number=1) => {
+  let _sql = `SELECT
+              post.pid,
+              post.title,
+              post.sub_title,
+              post.uid,
+              post.date,
+              post.category,
+              post.pv,
+              post.cv,
+              post.lv,
+              post.fv,
+              post.thumb,
+              post.intro,
+              post.\`hash\`,
+              \`user\`.uname,
+              \`user\`.avatar
+              FROM
+              post
+              INNER JOIN \`user\` ON post.uid = \`user\`.uid
+              WHERE
+              post.category = '${category}'
+              ORDER BY
+              post.date DESC
+              LIMIT ${(page - 1) * 25}, 25`
+  return dbquery(_sql)
+}
+
+export const postCategoryTotal = async (category: string) => {
+  let _sql = `SELECT COUNT(pid) total FROM post WHERE category = '${category}'`
+  return dbquery(_sql)
+}
+
+export const getPidByHash = async (hash: string) => {
+  let _sql = `SELECT pid FROM post WHERE \`hash\` = '${hash}'`
   return dbquery(_sql)
 }
 
