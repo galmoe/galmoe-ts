@@ -19,6 +19,7 @@ export class ReplyController {
       data: {
         replies: await Reply.getReplies(cid, page),
         page,
+        pages: Math.ceil(total / 10),
         total,
         root: cid
       }

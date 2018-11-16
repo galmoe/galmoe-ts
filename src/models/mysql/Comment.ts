@@ -66,13 +66,14 @@ export const getCommentByH = async (pid: number, page:number = 1) => {
 }
 
 export const total = async (pid: number) => {
-  let _sql = `SELECT cv FROM post WHERE pid = ${pid}`
+  let _sql = `SELECT cv, ct FROM post WHERE pid = ${pid}`
   return dbquery(_sql)
 }
 
 export const insertOne = async (uid: number, pid: number, content: string) => {
   let _sql = `INSERT INTO \`comment\` (pid, uid, content, date) VALUES (${pid}, ${uid}, '${maxFiler(transferContent(escapeChar(xss(content, commentFilter))), 1000)}', NOW());
               UPDATE post SET cv = cv + 1 WHERE pid = ${pid};
+              UPDATE post SET ct = ct + 1 WHERE pid = ${pid};
               SELECT MAX(cid) cid FROM \`comment\`;`
   return dbquery(_sql)
 }

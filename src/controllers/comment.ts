@@ -1,3 +1,4 @@
+/// <reference path='../../node_modules/koa-body/index.d.ts' />
 import { Context } from 'koa'
 import * as Comment from '../models/mysql/Comment'
 
@@ -5,15 +6,16 @@ export class CommentController {
   static async getComment(ctx: Context) {
     const { pid } = ctx.params
     const { query } = ctx
-    const total = (await Comment.total(pid))[0].cv
+    const { cv, ct } = (await Comment.total(pid))[0]
     const page = Number(query.page) || 1
     if (query.sort === 'h' ) {
       ctx.body = {
         data: {
           lists: (await Comment.getCommentByH(pid, page)),
           page,
-          pages: Math.ceil(total / 25),
-          total
+          pages: Math.ceil(cv / 25),
+          cv,
+          ct
         }
       }
     } else {
@@ -21,8 +23,9 @@ export class CommentController {
         data: {
           lists: (await Comment.getCommentByT(pid, page)),
           page,
-          pages: Math.ceil(total / 25),
-          total
+          pages: Math.ceil(cv / 25),
+          cv,
+          ct
         }
       }
     }

@@ -55,12 +55,11 @@ export const total = async (cid: number) => {
 export const insertOne = async (replyObj: any) => {
   let _sql = `
   INSERT INTO reply (cid, parent, uid, receiver, r_name, content, date) VALUES (${replyObj.cid}, ${replyObj.parent}, ${replyObj.uid}, ${replyObj.receiver}, '${escapeChar(replyObj.r_name)}', '${maxFiler(transferContent(escapeChar(xss(replyObj.content, replyFilter))), 1000)}', NOW());
-  UPDATE \`comment\` SET rv = rv + 1 WHERE cid = ${replyObj.cid};
+  UPDATE \`comment\` SET rv = rv + 1, ct = ct + 1 WHERE cid = ${replyObj.cid};
   UPDATE post p
       JOIN comment c ON p.pid = c.pid
   SET p.cv = p.cv + 1
   WHERE c.cid = ${replyObj.cid};
   SELECT MAX(rid) rid FROM reply;`
-  console.log(_sql)
   return dbquery(_sql)
 }

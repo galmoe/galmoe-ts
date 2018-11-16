@@ -24,7 +24,7 @@ export const commentFilter = {
     br: [''],
     p: [''],
     span: [''],
-    image: ['src']
+    img: ['src', 'title']
   }
 }
 

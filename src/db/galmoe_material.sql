@@ -11,7 +11,7 @@
  Target Server Version : 80013
  File Encoding         : 65001
 
- Date: 13/11/2018 22:00:13
+ Date: 16/11/2018 23:29:37
 */
 
 SET NAMES utf8mb4;
@@ -32,7 +32,7 @@ CREATE TABLE `comment`  (
   `dv` int(8) NOT NULL DEFAULT 0,
   `rv` int(8) NOT NULL DEFAULT 0,
   PRIMARY KEY (`cid`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for fav
@@ -59,6 +59,7 @@ CREATE TABLE `post`  (
   `lv` int(8) NOT NULL DEFAULT 0,
   `fv` int(8) NOT NULL DEFAULT 0,
   `cv` int(8) NOT NULL DEFAULT 0,
+  `ct` int(8) NOT NULL DEFAULT 0,
   `thumb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `intro` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `hash` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -66,7 +67,7 @@ CREATE TABLE `post`  (
   PRIMARY KEY (`pid`, `hash`) USING BTREE,
   INDEX `pid`(`pid`) USING BTREE,
   INDEX `hash`(`hash`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for post_d
@@ -101,7 +102,7 @@ CREATE TABLE `reply`  (
   `is_read` int(1) NULL DEFAULT NULL,
   `date` datetime(0) NOT NULL,
   PRIMARY KEY (`rid`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for tag
@@ -152,6 +153,6 @@ CREATE TABLE `user`  (
   UNIQUE INDEX `uname`(`uname`) USING BTREE,
   UNIQUE INDEX `email`(`email`) USING BTREE,
   INDEX `uid`(`uid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
