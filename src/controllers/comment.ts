@@ -35,7 +35,7 @@ export class CommentController {
     const { uid } = ctx.state
     const { pid } = ctx.params
     let { content } = ctx.request.body
-    const res = (await Comment.insertOne(uid, pid, content))[2]
+    const res = (await Comment.insertOne(uid, pid, content))[3]
     const { cid } = res[0]
     ctx.body = {
       type: 'success',

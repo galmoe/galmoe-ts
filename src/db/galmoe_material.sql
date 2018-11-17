@@ -11,7 +11,7 @@
  Target Server Version : 80013
  File Encoding         : 65001
 
- Date: 16/11/2018 23:29:37
+ Date: 17/11/2018 23:40:35
 */
 
 SET NAMES utf8mb4;
@@ -103,6 +103,15 @@ CREATE TABLE `reply`  (
   `date` datetime(0) NOT NULL,
   PRIMARY KEY (`rid`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for sticker
+-- ----------------------------
+DROP TABLE IF EXISTS `sticker`;
+CREATE TABLE `sticker`  (
+  `src` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`src`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for tag

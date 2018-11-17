@@ -27,6 +27,26 @@ export class SessionController {
     }
   }
 
+  static async checkAdmin(ctx: Context, next: any) {
+    const cuid = Number(ctx.cookies.get('cuid'))
+    const uid = Number(ctx.session.uid)
+    console.log('cuid: ', cuid, 'uid: ', uid)
+    if (cuid !== uid || cuid !== 1) {
+      // 删除cookie
+      ctx.cookies.set('cuid', '')
+      // 删除session
+      delete ctx.session.uid
+      return ctx.body =  {
+        type: 'error',
+        msg: '非管理员用户'
+      }
+    } else {
+      ctx.state.cuid = cuid
+      ctx.state.uid = uid
+      return next()
+    }
+  }
+
   static async checkCaptcha(ctx: Context, next: any) {
     const req = ctx.request.body
     const { captcha } = ctx.session

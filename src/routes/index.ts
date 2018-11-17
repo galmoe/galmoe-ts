@@ -8,6 +8,7 @@ import * as post from './post'
 import * as publish from './publish'
 import * as comment from './comment'
 import * as reply from './reply'
+import * as img from './img'
 
 
 const router = new Router({
@@ -27,6 +28,7 @@ router.use(post.routes())
 router.use(publish.routes())
 router.use(comment.routes())
 router.use(reply.routes())
+router.use(img.routes())
 
 // router.use(user)
 // router.use(user.routes(), user.allowedMethods())
